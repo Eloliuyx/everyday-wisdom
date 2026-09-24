@@ -1,0 +1,57 @@
+# Verification and real-app test matrix
+
+Recorded 2026-09-24 UTC. Version: 1.0.0 development preview; content 0.4.
+
+## Automated verification
+
+`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **42 tests passed** on 2026-09-24 UTC. The tests exercise pure transforms and plugin event/write integration with mock Obsidian APIs. They do not test Obsidian's real editor or settings renderer.
+
+Covered: leap and century years; annual mapping; date folders, custom formats, localized tokens, and invalid/incomplete dates; optional questions; BOM/CRLF/frontmatter; duplicate and edited blocks; code/quoted marker examples; malformed markers; preview/write races; cancellation; individual write failures; concurrent insertion; dirty editors; differing open editors; startup discovery; historical opening; creation for past dates; delayed template writes; disabling/unloading; automatic suspension during batches.
+
+Build graph verification: the production bundle imports only `obsidian`; the only bundled third-party runtime code is the tree-shaken daily-notes helper. No `fetch`, XMLHttpRequest, WebSocket, or requestUrl call was found in the production bundle. A real offline-app test remains pending.
+
+## Test environment and blockers
+
+- Development: macOS, Node 24.19.0, ESLint 10.11.0, TypeScript and dependencies pinned by package-lock.json. Clean dependency installation and production packaging passed in the user's project directory; npm reported zero known vulnerabilities.
+- Installed Obsidian: 1.13.7. No successful live-app session has been established. The official CLI reported that Obsidian could not be found/running; Computer Use reported that permissions were not granted.
+- Minimum declared Obsidian: 1.13.1, chosen for its settings API. This exact version has not been run.
+- No actual iOS or Android Obsidian run was performed. A desktop narrow viewport would not count as either.
+
+## Isolated test vault
+
+Run `npm run package`, then `npm run test:vault`. The second command creates `test-vault/` and refuses to overwrite it. Open this folder using Obsidian's **Open folder as vault**. Enable the locally bundled plugin if prompted. No personal vault is modified or registered by the script.
+
+For assisted testing, run Obsidian, enable its official command-line interface in General settings, and use the dedicated test vault. Computer Use permission is needed for direct UI verification/screenshots. Keep the table below pending until evidence is collected.
+
+## Acceptance matrix
+
+All rows below are **pending actual-app verification**. Record platform, app version, date, result, and evidence when executing them.
+
+| Scenario | Expected result |
+| --- | --- |
+| Create today's Daily Note with supplied template | Properties first, one reflection, then template/body unchanged. |
+| Reopen today; trigger insertion twice rapidly | Exactly one marked reflection. |
+| Open existing historical note | No automatic insertion. Manual command uses its date. |
+| Create an explicit past/future daily note | One reflection for that date. |
+| Create Feb 29 in a leap year; open March 1 in common/leap years | Correct Feb 29; identical March 1 content across years. |
+| Dates in configured subfolders/custom calendar formats | Recognized correctly; other folders and ambiguous formats untouched. |
+| No-question date | No empty prompt or label. |
+| Switch between Live Preview and Reading mode | Same callout; no visible markers; one title. |
+| Dark/light themes, narrow viewport, long title | Legible, wrapping content; no horizontal overflow. |
+| All settings and modal actions using keyboard | Focus visible and every action reachable; Escape cancels safely. |
+| Turn automatic off, create/reopen notes, restart app | No automatic writes; saved setting remains off. |
+| Switch position to bottom | New insertion at end; existing blocks stay in place. |
+| Edit text before auto insertion; open note twice | Personal/unsaved writing preserved; disagreeing views safely skipped. |
+| Fill a range containing existing, empty, invalid, absent dates | Preview accurate; only existing recognized notes updated; no new files. |
+| Change a note after preview | Note skipped without overwrite. |
+| Cancel during a large batch; retry | Counts accurate; completed changes kept; retry is idempotent. |
+| Remove: intact, edited, mixed, malformed, and sample markers | Only unedited valid blocks removed; personal writing intact. |
+| Remove with automatic-off default | Setting persists off after restart. |
+| Remove with automatic left on | Reopening today can reinsert, as the confirmation explains. |
+| Disable/re-enable plugin; restart; replace plugin build | No writes after unload; existing blocks unchanged after upgrade. |
+| Offline run | All core operations work without network. |
+| Two-device sync or simultaneous changes | No lost user text; any sync conflicts documented; no blanket conflict-resolution promise. |
+| Actual iOS and Android | Repeat creation, manual insert, settings, fill, removal, cancellation, restart. |
+| Minimum declared version 1.13.1 | Plugin loads and all required APIs/settings work. |
+
+Arbitrary Templater scripts, Periodic Notes, and dual-device sync have not been integration-tested. Do not convert mock-test coverage into a platform support claim.

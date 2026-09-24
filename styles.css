@@ -1,0 +1,17 @@
+.everyday-wisdom-modal .everyday-wisdom-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+  justify-content: flex-end;
+  margin-top: var(--size-4-4);
+}
+
+.everyday-wisdom-modal .everyday-wisdom-file-list {
+  max-height: 35vh;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+
+.everyday-wisdom-modal details {
+  margin-block: var(--size-4-3);
+}

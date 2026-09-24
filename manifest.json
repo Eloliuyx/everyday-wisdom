@@ -1,0 +1,10 @@
+{
+  "id": "everyday-wisdom",
+  "name": "Everyday Wisdom",
+  "version": "1.0.0",
+  "minAppVersion": "1.13.1",
+  "description": "Add one thoughtful reflection to each date in your Daily Notes, entirely offline.",
+  "author": "the flying markhor",
+  "authorUrl": "https://github.com/Eloliuyx",
+  "isDesktopOnly": false
+}
