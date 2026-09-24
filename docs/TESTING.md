@@ -4,16 +4,18 @@ Recorded 2026-09-24 UTC. Version: 1.0.0 development preview; content 0.4.
 
 ## Automated verification
 
-`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **42 tests passed** on 2026-09-24 UTC. The tests exercise pure transforms and plugin event/write integration with mock Obsidian APIs. They do not test Obsidian's real editor or settings renderer.
+`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **50 tests passed** on 2026-09-24 UTC. Tests exercise pure transforms, plugin event/write integration with mock Obsidian APIs, and marker decorations using real CodeMirror state. They do not test Obsidian's actual editor rendering or settings renderer.
 
 Covered: leap and century years; annual mapping; date folders, custom formats, localized tokens, and invalid/incomplete dates; optional questions; BOM/CRLF/frontmatter; duplicate and edited blocks; code/quoted marker examples; malformed markers; preview/write races; cancellation; individual write failures; concurrent insertion; dirty editors; differing open editors; startup discovery; historical opening; creation for past dates; delayed template writes; disabling/unloading; automatic suspension during batches.
 
-Build graph verification: the production bundle imports only `obsidian`; the only bundled third-party runtime code is the tree-shaken daily-notes helper. No `fetch`, XMLHttpRequest, WebSocket, or requestUrl call was found in the production bundle. A real offline-app test remains pending.
+The preview update additionally covers Live Preview / Source mode switching, paired-marker ranges, damaged/code-example markers, edited reflection bodies, position changes after typing, adjacent blocks/BOM, and manual settings insertion with automatic off or a non-daily active file. The support-footer CSS was compared with Everyday Classical Music and matches exactly after renaming its plugin-specific class prefix.
+
+Build graph verification: the production bundle imports only host-provided `obsidian`, `@codemirror/state`, and `@codemirror/view`. Bundled third-party code is the tree-shaken daily-notes helper and the adapted music-plugin support footer; notices are included. No `fetch`, XMLHttpRequest, WebSocket, or requestUrl call was found in the production bundle. A real offline-app test remains pending. Ko-fi opens only from an explicit button click.
 
 ## Test environment and blockers
 
 - Development: macOS, Node 24.19.0, ESLint 10.11.0, TypeScript and dependencies pinned by package-lock.json. Clean dependency installation and production packaging passed in the user's project directory; npm reported zero known vulnerabilities.
-- Installed Obsidian: 1.13.7. No successful live-app session has been established. The official CLI reported that Obsidian could not be found/running; Computer Use reported that permissions were not granted.
+- Installed Obsidian: 1.13.7. No successful assisted live-app session has been established. On the latest check, the official CLI found Obsidian running but reported that the command-line interface is disabled. Computer Use previously reported that permissions were not granted.
 - Minimum declared Obsidian: 1.13.1, chosen for its settings API. This exact version has not been run.
 - No actual iOS or Android Obsidian run was performed. A desktop narrow viewport would not count as either.
 
@@ -37,6 +39,9 @@ All rows below are **pending actual-app verification**. Record platform, app ver
 | Dates in configured subfolders/custom calendar formats | Recognized correctly; other folders and ambiguous formats untouched. |
 | No-question date | No empty prompt or label. |
 | Switch between Live Preview and Reading mode | Same callout; no visible markers; one title. |
+| Live Preview / Source mode toggle, existing reflections, malformed markers | Intact marker lines hidden only in Live Preview, no stored-text changes; Source mode and malformed markers remain inspectable. |
+| Manual insertion from settings and file context menu | Uses the selected/open daily note's date; works with automatic off; other files untouched. |
+| Donation footer | Standalone centered Feed the Markhor button matches music plugin; no request on settings open/search; click opens the correct Ko-fi URL. |
 | Dark/light themes, narrow viewport, long title | Legible, wrapping content; no horizontal overflow. |
 | All settings and modal actions using keyboard | Focus visible and every action reachable; Escape cancels safely. |
 | Turn automatic off, create/reopen notes, restart app | No automatic writes; saved setting remains off. |

@@ -27,7 +27,7 @@ export class BatchModal extends Modal {
   }
 
   onOpen(): void {
-    this.setTitle(this.kind === 'fill' ? 'Fill missing reflections' : 'Remove generated reflections');
+    this.setTitle(this.kind === 'fill' ? 'Backfill' : 'Deletion');
     this.contentEl.addClass('everyday-wisdom-modal');
     if (this.wisdom.bulkRunning) {
       this.contentEl.createEl('p', { text: 'Another operation is already running. Please wait for it to finish.' });
@@ -122,7 +122,7 @@ export class BatchModal extends Modal {
     new ButtonComponent(buttons).setButtonText('Back').onClick(() => { this.plan = null; this.showRange(); });
     new ButtonComponent(buttons).setButtonText('Cancel').onClick(() => this.close());
     if (notes.length || (this.kind === 'remove' && this.disableAutomatic && this.wisdom.settings.automatic)) {
-      new ButtonComponent(buttons).setButtonText(this.kind === 'fill' ? 'Fill reflections' : 'Remove reflections')
+      new ButtonComponent(buttons).setButtonText(this.kind === 'fill' ? 'Backfill' : 'Delete reflections')
         .setCta().onClick(() => { void this.execute(); });
     }
   }

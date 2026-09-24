@@ -17,6 +17,7 @@ Plugin version `1.0.0`; content edition `0.4`; author `the flying markhor` (carr
 - Date-range/all-existing backfill and removal with preview, explicit confirmation, cancellation, and outcome counts.
 - Latest-content writes, serialized per-note updates, editor-aware mutation, and preview-change detection.
 - Local-only runtime, official ESLint rules, automated tests, content QA, build checks, install ZIP, and a dedicated test-vault generator.
+- Live Preview metadata hiding; manual insertion from settings or a daily-note context menu; Backfill/Deletion labels; the same standalone Ko-fi footer as Everyday Classical Music.
 
 ## Milestone status
 
@@ -42,7 +43,7 @@ Plugin version `1.0.0`; content edition `0.4`; author `the flying markhor` (carr
 
 1. Run and record the actual desktop, minimum-version, iOS, and Android matrix in [TESTING.md](TESTING.md). Capture real light/dark/narrow-screen images; do not fabricate product screenshots.
 2. Complete final editorial review of the selected 366 entries.
-3. Owner selects the public license and confirms author identity. Recommended licensing scope is in [LICENSING_PROPOSAL.md](LICENSING_PROPOSAL.md). A donation link is optional and currently omitted.
+3. Owner selects the public license and confirms author identity. Recommended licensing scope is in [LICENSING_PROPOSAL.md](LICENSING_PROPOSAL.md). The owner has requested the same donation footer as Everyday Classical Music; the verified link is `https://ko-fi.com/flyingmarkhor` and is also declared as `fundingUrl`.
 4. Review the concrete materials, make the repository public, establish the release default branch, and publish exact tag `1.0.0` with the three separate plugin attachments. No release is published by CI automatically.
 5. Sign in to Obsidian Community, connect GitHub, submit the repository under the correct owner, resolve automated review errors, and publish the directory entry.
 6. Verify installation from the public Obsidian directory in a fresh vault, using the actual released assets.

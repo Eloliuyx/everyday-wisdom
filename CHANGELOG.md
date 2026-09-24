@@ -2,6 +2,10 @@
 
 ## 1.0.0 — unreleased development preview
 
+- Hide intact identification-marker lines in Live Preview while keeping the note file unchanged and retaining Source mode access.
+- Add **Insert reflection** to settings and daily-note context menus; shorten batch action names to **Backfill** and **Deletion**.
+- Match the Everyday Classical Music settings footer with a centered **Feed the Markhor 🦌🪽** button linking to the author's Ko-fi page.
+
 - Bundle English reflection edition 0.4: 366 calendar dates, 302 optional questions.
 - Insert by note date, automatically for newly created daily notes and opened notes for today, with a manual command for older dates.
 - Preserve note properties, personal text, edited reflections, and malformed markers.

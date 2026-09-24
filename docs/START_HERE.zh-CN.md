@@ -24,11 +24,25 @@
 
 安装 ZIP 在 `dist/everyday-wisdom-1.0.0.zip`。若要装进其他测试库，把压缩包里的 `everyday-wisdom` 文件夹放进该库的 `.obsidian/plugins/`，随后在 Obsidian 启用插件即可。
 
+更新测试库内的插件后，在社区插件设置里将 Everyday Wisdom 关闭再开启，加载新版。
+
+## 手动插入和新的设置名称
+
+先打开目标 Daily Note，按 **⌘P**，搜索 **Everyday Wisdom: Insert reflection**。也可以点设置页的 **Insert reflection**，或在左侧文件列表右键该日记，选择 **Insert reflection**。非日记文件不会被写入。
+
+**Backfill** 用于补齐已有日记中缺少的沉思；**Deletion** 用于删除本插件生成且未被改写的沉思，不删除日记文件。两者都有预览和确认。
+
+底部的 **Feed the Markhor 🦌🪽** 与 Everyday Classical Music 使用相同的居中、无边框布局，点击后打开 `https://ko-fi.com/flyingmarkhor`。
+
+## 为什么源文件里有 start / end 标记
+
+它们是防重复和安全清理需要的识别标记，并不是测试版提示。新版在 **Live Preview（实时预览）** 隐藏完整的标记行，已插入的旧条目也适用；Reading view（阅读视图）不显示 HTML 注释。Source mode（源码模式）仍显示原始文本。损坏的标记会保留可见，以便检查。该显示调整不改写日记。
+
 ## 验证情况
 
 自动检查覆盖日期、闰年、正文保护、未保存编辑、重复触发、模板延迟、预览后改动、取消和读写失败。检查通过不等于已在真实应用中验收。
 
-真实界面验证目前受环境限制：界面控制工具报告未获得权限；官方命令行未连接到运行中的 Obsidian。iOS 和 Android 尚未实测。完整测试清单见 [TESTING.md](TESTING.md)。
+真实界面验证目前受环境限制：界面控制工具此前报告未获得权限；最新检测发现 Obsidian 已运行，但尚未启用命令行。iOS 和 Android 尚未实测。完整测试清单见 [TESTING.md](TESTING.md)。
 
 ## 上线之前还有什么
 

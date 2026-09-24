@@ -11,7 +11,7 @@ Everyday Wisdom adds a short English reflection to the top of a daily note, afte
 - Create a daily note: its own date selects the reflection, even for a past or future date.
 - Open today's note: a missing reflection is added automatically.
 - Read an older note: nothing is added just from opening it.
-- Run **Everyday Wisdom: Insert reflection into this daily note** to add one manually.
+- Open a daily note, press **Cmd+P** (macOS) or **Ctrl+P** (Windows/Linux), then run **Everyday Wisdom: Insert reflection** to add one manually. You can also use **Insert reflection** in this plugin's settings or right-click the daily note in the file explorer.
 - Existing reflections stay as written. Running an insertion again does not duplicate them, including after you edit their visible text.
 
 The date-to-reflection mapping repeats annually. March 1 always selects March 1, regardless of leap years. The 64 entries without questions do not display an empty question label.
@@ -34,19 +34,21 @@ If Periodic Notes has daily notes enabled, the daily-notes helper uses its daily
 
 **Automatic insertion** can be turned off. **Insert position** can be changed to the end of the note; already inserted reflections are not moved.
 
-**Fill missing reflections** accepts a date range or all existing daily notes. A preview shows which notes will change and which will be skipped. Confirm to apply it. It never creates files for missing dates.
+**Backfill** accepts a date range or all existing daily notes. A preview shows which notes will change and which will be skipped. Confirm to apply it. It never creates files for missing dates.
 
-**Remove generated reflections** also requires a preview and confirmation. Only intact, unchanged marked blocks are removed. Edited blocks, unclear markers, and personal writing are kept. A note with a mix of edited and unchanged blocks is kept in full. Automatic insertion is turned off by default when removal is confirmed; you can opt out in the dialog.
+**Deletion** removes reflections, never note files, and requires a preview and confirmation. Only intact, unchanged marked blocks are removed. Edited blocks, unclear markers, and personal writing are kept. A note with a mix of edited and unchanged blocks is kept in full. Automatic insertion is turned off by default when deletion is confirmed; you can opt out in the dialog.
 
 You can stop a batch after the current note. Results report updates, skips, failures, and notes not processed. A note changed since preview is skipped. The preview is not a backup; use your usual vault backup and sync practices.
 
 ## Your notes and privacy
 
-Inserted reflections are ordinary Markdown callouts with hidden identifying comments. Keep the comments if you want duplicate detection and safe cleanup. Editing inside a generated block causes cleanup to preserve it. Removing all its identifying comments makes it ordinary writing that the plugin cannot identify.
+Inserted reflections are ordinary Markdown callouts with identifying comments. These are permanent metadata for duplicate detection and safe cleanup, not test-version messages. The plugin hides intact marker lines in **Live Preview**, including existing reflections. They are HTML comments and are not displayed in **Reading view**. **Source mode** intentionally shows the underlying Markdown, including markers. Broken markers remain visible for inspection. The display extension never changes the stored note.
+
+Keep the comments if you want duplicate detection and safe cleanup. Editing inside a generated block causes cleanup to preserve it. Removing all its identifying comments makes it ordinary writing that the plugin cannot identify.
 
 Your properties and existing body text are preserved. Removal may leave blank separator lines in place. Disabling or uninstalling the plugin leaves all written text in your notes. Updating the content collection does not rewrite existing reflections.
 
-There are no accounts, telemetry, AI calls, remote content fetches, or runtime network requests. The Help and feedback button opens this repository only when you click it; note content is not sent. The content and required helper code are bundled. This plugin does not provide its own sync or resolve simultaneous edits from multiple devices.
+There are no accounts, telemetry, AI calls, remote content fetches, or background network requests. **Help and feedback** opens this repository only when clicked. **Feed the Markhor 🦌🪽**, centered below the settings, opens [the author's Ko-fi page](https://ko-fi.com/flyingmarkhor) only when clicked. Neither link sends note content. The content and required helper code are bundled. This plugin does not provide its own sync or resolve simultaneous edits from multiple devices.
 
 ## Known limitations
 
@@ -68,7 +70,7 @@ npm run test:vault
 
 The package is `dist/everyday-wisdom-1.0.0.zip`. `dist/main.js`, `dist/manifest.json`, and `dist/styles.css` are the separate future release attachments. The test-vault command creates `test-vault/` with the plugin and sample notes; it refuses to overwrite an existing folder. Open that folder as a vault in Obsidian. It does not alter or register any personal vault.
 
-`npm run check` runs the official Obsidian ESLint rules, tests, type checking, content checks, and a production build. The bundle only imports Obsidian at runtime, with no Node/Electron dependencies. Tests use mock Obsidian APIs and do not replace real-app verification.
+`npm run check` runs the official Obsidian ESLint rules, tests, type checking, content checks, and a production build. The bundle imports only host-provided Obsidian and CodeMirror APIs at runtime, with no Node/Electron dependencies. Tests use mock Obsidian APIs and real CodeMirror state and do not replace real-app verification.
 
 ## Content, license, and support
 

@@ -35,7 +35,7 @@ function harness() {
       getActiveFile: () => active,
       getLeavesOfType: () => views.map(view => ({ view })),
       getActiveViewOfType: () => views.find(view => view.file === active) ?? null,
-      on: (_event: string, callback: (file: TFile) => void) => { open = callback; },
+      on: (event: string, callback: (file: TFile) => void) => { if (event === 'file-open') open = callback; },
       onLayoutReady: (callback: () => void) => { ready = callback; },
     },
   };
@@ -135,6 +135,20 @@ describe('plugin event and write integration (mock Obsidian APIs)', () => {
     const one = h.editor(file, 'First editor'); const two = h.editor(file, 'Second editor');
     await h.plugin.insert(file, true);
     expect(one.getValue()).toBe('First editor'); expect(two.getValue()).toBe('Second editor');
+    expect(h.app.vault.process).not.toHaveBeenCalled();
+  });
+  test('manual settings action inserts into the open historical note with automatic insertion off', async () => {
+    const h = harness(); await h.plugin.onload(); h.ready(); h.plugin.settings.automatic = false;
+    const file = h.note('Daily/2024-02-29.md', 'History'); h.open(file);
+    await h.plugin.insertActiveNote();
+    expect(h.disk.get(file.path)).toContain(entryForDate('2024-02-29')!.title);
+    expect(h.disk.get(file.path)).toContain('History');
+  });
+  test('manual settings action leaves a non-daily note unchanged', async () => {
+    const h = harness(); await h.plugin.onload(); h.ready();
+    const file = h.note('Projects/2026-09-24.md', 'Project notes'); h.open(file);
+    await h.plugin.insertActiveNote();
+    expect(h.disk.get(file.path)).toBe('Project notes');
     expect(h.app.vault.process).not.toHaveBeenCalled();
   });
 });

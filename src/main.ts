@@ -8,6 +8,7 @@ import { DEFAULT_SETTINGS, readSettings, type Change, type WisdomSettings } from
 import { WisdomSettingTab } from './settings';
 import { BatchModal } from './ui/batch-modal';
 import type { Candidate } from './batch';
+import { hiddenWisdomMarkers } from './editor';
 
 export default class EverydayWisdom extends Plugin {
   settings: WisdomSettings = { ...DEFAULT_SETTINGS };
@@ -22,10 +23,11 @@ export default class EverydayWisdom extends Plugin {
   async onload(): Promise<void> {
     this.settings = readSettings(await this.loadData());
     this.stopped = false;
+    this.registerEditorExtension(hiddenWisdomMarkers);
     this.settingTab = new WisdomSettingTab(this);
     this.addSettingTab(this.settingTab);
     this.addCommand({
-      id: 'insert-reflection', name: 'Insert reflection into this daily note',
+      id: 'insert-reflection', name: 'Insert reflection',
       checkCallback: checking => {
         const file = this.app.workspace.getActiveFile();
         if (!file || !dailyDate(file.path) || this.bulkRunning) return false;
@@ -33,8 +35,13 @@ export default class EverydayWisdom extends Plugin {
         return true;
       },
     });
-    this.addCommand({ id: 'fill-missing', name: 'Fill missing reflections', callback: () => new BatchModal(this, 'fill').open() });
-    this.addCommand({ id: 'remove-generated', name: 'Remove generated reflections', callback: () => new BatchModal(this, 'remove').open() });
+    this.addCommand({ id: 'fill-missing', name: 'Backfill', callback: () => new BatchModal(this, 'fill').open() });
+    this.addCommand({ id: 'remove-generated', name: 'Deletion', callback: () => new BatchModal(this, 'remove').open() });
+    this.registerEvent(this.app.workspace.on('file-menu', (menu, file) => {
+      if (!(file instanceof TFile) || !dailyDate(file.path) || this.bulkRunning) return;
+      menu.addItem(item => item.setTitle('Insert reflection').setIcon('book-open-text')
+        .onClick(() => this.insert(file, true)));
+    }));
     this.registerInterval(window.setInterval(() => {
       for (const [path, expires] of this.newFiles) if (expires <= Date.now()) this.newFiles.delete(path);
     }, 10_000));
@@ -157,6 +164,16 @@ export default class EverydayWisdom extends Plugin {
     } catch {
       if (manual) new Notice('Could not update this note. Your content was left in place.');
     }
+  }
+
+  async insertActiveNote(): Promise<void> {
+    if (this.stopped || this.bulkRunning) return;
+    const file = this.app.workspace.getActiveFile();
+    if (!file || !dailyDate(file.path)) {
+      new Notice('Open a daily note first. Its folder and date format must match your daily notes settings.');
+      return;
+    }
+    await this.insert(file, true);
   }
 
   candidates(from: string | null, to: string | null): Candidate[] {
