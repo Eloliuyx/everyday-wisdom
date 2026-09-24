@@ -1,6 +1,6 @@
 # Verification and real-app test matrix
 
-Recorded 2026-09-24 UTC. Version: 1.0.0 development preview; content 0.4.
+Recorded 2026-09-24 UTC. Version: 1.0.0 release preparation; content 0.4.
 
 ## Automated verification
 
@@ -15,11 +15,13 @@ Build graph verification: the production bundle imports only host-provided `obsi
 ## Test environment and blockers
 
 - Development: macOS, Node 24.19.0, ESLint 10.11.0, TypeScript and dependencies pinned by package-lock.json. Clean dependency installation and production packaging passed in the user's project directory; npm reported zero known vulnerabilities.
-- Installed Obsidian: 1.13.7. No successful assisted live-app session has been established. On the latest check, the official CLI found Obsidian running but reported that the command-line interface is disabled. Computer Use previously reported that permissions were not granted.
+- Last observed installed Obsidian: 1.13.7. The owner reports the main workflow works, but no assisted live-app session has been established. On the release-preparation check, Computer Use reported permissions not granted and the official CLI could not locate the running app. An earlier CLI attempt found the app but reported that its command-line interface was disabled.
 - Minimum declared Obsidian: 1.13.1, chosen for its settings API. This exact version has not been run.
 - No actual iOS or Android Obsidian run was performed. A desktop narrow viewport would not count as either.
 
 ## Isolated test vault
+
+Production dependencies were checked with `npm audit --omit=dev` on 2026-09-24 UTC: zero known vulnerabilities. The release build embeds the project's MIT license as well as third-party notices. Content QA verifies that all 366 documented entries match the bundled content after the final editorial corrections.
 
 Run `npm run package`, then `npm run test:vault`. The second command creates `test-vault/` and refuses to overwrite it. Open this folder using Obsidian's **Open folder as vault**. Enable the locally bundled plugin if prompted. No personal vault is modified or registered by the script.
 

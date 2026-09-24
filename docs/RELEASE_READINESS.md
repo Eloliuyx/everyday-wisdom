@@ -1,57 +1,50 @@
 # Everyday Wisdom — release readiness
 
-Updated 2026-09-24 UTC. **Installable development preview; not ready to submit or claim approved.**
+Updated 2026-09-24 UTC. **1.0.0 release preparation; not yet publicly released, submitted, or approved.**
 
-Repository: https://github.com/Eloliuyx/everyday-wisdom (private during development).
+Repository: https://github.com/Eloliuyx/everyday-wisdom. It remains private until public release is authorized. The prepared release is a draft; see [publishing handoff](PUBLISH.zh-CN.md) and [release notes](releases/1.0.0.md).
 
-Local folder: `~/Documents/obsidian-code/everyday-wisdom`.
+The release default branch is `main`; the earlier `feat/initial-plugin` branch is retained as development history.
 
-Plugin version `1.0.0`; content edition `0.4`; author `the flying markhor` (carried over from the owner's existing plugin identity, to be confirmed before publication).
+Author: **the flying markhor**, consistent with the owner's published Everyday Classical Music plugin. The owner approved **MIT for the code and all 366 reflections** on 2026-09-24 UTC.
 
-## Implemented
+## Completed
 
-- 366 bundled English reflections, stable MM-DD selection and leap-day handling.
-- A saved automatic-insertion switch for newly created daily notes only. Existing notes are not changed on opening, enabling the switch, or restarting.
-- Settings for automatic insertion and top/bottom position.
-- Hidden markers, edit checksums, frontmatter preservation, idempotence, and safe cleanup.
-- Date-range/all-existing backfill and removal with preview, explicit confirmation, cancellation, and outcome counts.
-- Latest-content writes, serialized per-note updates, editor-aware mutation, and preview-change detection.
-- Local-only runtime, official ESLint rules, automated tests, content QA, build checks, install ZIP, and a dedicated test-vault generator.
-- Live Preview metadata hiding; no individual insertion menus, commands, or shortcuts; Backfill/Deletion actions; the same standalone Ko-fi footer as Everyday Classical Music.
+- 366 English reflections, stable month/day mapping and leap-day handling.
+- All 366 entries read in calendar order; three final copyedits recorded in [EDITORIAL_REVIEW.md](EDITORIAL_REVIEW.md). Dates, themes, and question counts unchanged.
+- Automatic insertion only for daily notes created while the switch is on. No individual manual-insertion command, shortcut, or menu.
+- Backfill and Deletion with previews, confirmation, cancellation, changed-note detection, and preservation of personal or edited text.
+- Top/bottom placement, metadata hiding in Live Preview, standalone settings introduction, donation footer, and right-aligned modal actions.
+- Owner-reported macOS main-workflow acceptance. The supplied Deletion result showed 1 updated, 0 skipped, 0 failed, 0 not processed.
+- 54 automated tests, official Obsidian ESLint rules, type checks, content/document consistency checks, runtime import checks, and reproducible packaging.
+- Production-dependency audit reported no known vulnerabilities on 2026-09-24 UTC.
+- MIT licensing applied to source, documentation, and content; full license and third-party notices included in the bundle and distribution.
+- User README, release notes, Chinese submission walkthrough, installation ZIP, separate plugin attachments, and SHA-256 checksums prepared.
+- No exact ID/name collision in the published community registry on 2026-09-24 UTC. This does not reserve the name or cover pending submissions.
 
-## Milestone status
+## Validation limits
 
-| Milestone | Current state |
+The user's main-workflow acceptance is not a pass for every row of [TESTING.md](TESTING.md). Actual iOS/Android, Obsidian 1.13.1, detailed large-vault, offline-app, and cross-device tests remain pending. Minimum 1.13.1 follows the settings API requirements. Mobile compatibility is intended but has not been verified.
+
+The current environment cannot obtain a new assisted UI session: Computer Use permission is unavailable, and the latest CLI check could not locate the running app. The last observed installed desktop version was 1.13.7. No new product screenshots or visual confirmation of the final Done alignment were fabricated. Screenshots are useful release material but are not a required plugin-submission attachment in the current official guide.
+
+## Milestones
+
+| Milestone | State |
 | --- | --- |
-| M1 Product and platform baseline | Repository/scaffold and specification implemented. Released registry had no exact ID/name collision on 2026-09-24; this does not reserve the name or cover pending entries. |
-| M2 Content/date engine | Structural and automated date checks pass. Similarity samples reviewed; final editorial read-through still pending. |
-| M3 Single-note insertion | Implemented and covered by automated tests; actual editor acceptance pending. |
-| M4 Automatic behavior/settings | Implemented and mock integration tests pass; actual core-template, settings, restart acceptance pending. |
-| M5 Batch operations | Implemented and automated safety tests pass; real modal and large-vault acceptance pending. |
-| M6 Platform verification | Incomplete: desktop connection/control unavailable; actual iOS/Android and minimum-version testing pending. |
-| M7 Release candidate | Build/packaging/docs prepared. License selection, platform results, actual screenshots, and final editorial review remain. |
-| M8 Submission/review | Not started. No public release, community entry, or approval claimed. |
-| M9 Store-install verification | Not started; depends on an actual published listing. |
+| M1 Baseline | Complete. |
+| M2 Content and dates | Structural checks and full editorial read-through complete. |
+| M3–M5 Insertion, settings, batch operations | Implemented, automated checks pass, owner reports the main workflow works. Detailed acceptance remains recorded separately. |
+| M6 Platforms | Partial: macOS basic workflow checked by owner; mobile and exact minimum version unverified. |
+| M7 Release preparation | License, content, package, README, notes, and GitHub draft prepared. Full platform acceptance and optional screenshots remain. |
+| M8 Submission/review | Pending public-release decision, account linking, submission, and actual review results. |
+| M9 Store installation | Pending a published listing. |
 
-## Artifacts
+## Publication steps remaining
 
-`npm run package` produces `dist/everyday-wisdom-1.0.0.zip`, separate `main.js`, `manifest.json`, `styles.css`, license/notices, and SHA-256 checksums. The ZIP contains the correct `everyday-wisdom/` plugin folder. Generated binaries are not committed to source control; CI uploads an installation artifact.
+1. Review the concrete 1.0.0 materials and outstanding platform coverage. Confirm the intended release scope before publishing.
+2. Make the GitHub repository public and publish the exact `1.0.0` release, with `main.js`, `manifest.json`, and `styles.css` as separate attachments. CI does not publish automatically.
+3. Sign in to Obsidian Community, link GitHub, submit under the correct owner, and resolve automated-review errors. The owner must accept the developer and maintenance policies.
+4. Publish the community entry and verify store installation in a fresh vault.
 
-`npm run test:vault` prepares an isolated vault. `README.md`, `CHANGELOG.md`, `THIRD_PARTY_NOTICES.md`, `CONTENT_QA_REPORT.md`, and `TESTING.md` are included in the repository. The root `LICENSE` is explicitly a pre-release notice; it is not yet the selected public license.
-
-## Remaining decisions and release gates
-
-1. Run and record the actual desktop, minimum-version, iOS, and Android matrix in [TESTING.md](TESTING.md). Capture real light/dark/narrow-screen images; do not fabricate product screenshots.
-2. Complete final editorial review of the selected 366 entries.
-3. Owner selects the public license and confirms author identity. Recommended licensing scope is in [LICENSING_PROPOSAL.md](LICENSING_PROPOSAL.md). The owner has requested the same donation footer as Everyday Classical Music; the verified link is `https://ko-fi.com/flyingmarkhor` and is also declared as `fundingUrl`.
-4. Review the concrete materials, make the repository public, establish the release default branch, and publish exact tag `1.0.0` with the three separate plugin attachments. No release is published by CI automatically.
-5. Sign in to Obsidian Community, connect GitHub, submit the repository under the correct owner, resolve automated review errors, and publish the directory entry.
-6. Verify installation from the public Obsidian directory in a fresh vault, using the actual released assets.
-
-The initial source is kept on `feat/initial-plugin`. Do not treat the private development branch as an approved release. Future content changes do not rewrite stored reflections.
-
-## Current official publishing path
-
-Verified against the [official submission guide](https://docs.obsidian.md/plugins/releasing/submit-plugin) and [plugin submission requirements](https://docs.obsidian.md/community-directory/submission-requirements-for-plugins) on 2026-09-24. Submit through **community.obsidian.md** after the GitHub release is ready. The directory reads the default-branch manifest; its version must match the release tag. Upload `main.js`, `manifest.json`, and `styles.css` separately. A ZIP alone is insufficient.
-
-The full Chinese walkthrough is in [DEVELOPMENT_PLAN.zh-CN.md](DEVELOPMENT_PLAN.zh-CN.md). Review timing depends on Obsidian; no approval date is promised.
+Current official process verified on 2026-09-24 UTC: [submission guide](https://docs.obsidian.md/plugins/releasing/submit-plugin), [plugin requirements](https://docs.obsidian.md/community-directory/submission-requirements-for-plugins), and [developer policies](https://docs.obsidian.md/community-directory/developer-policies).

@@ -1,7 +1,9 @@
-# Public licensing proposal — pending owner selection
+# License decision — MIT
 
-The project is private and pre-release. `package.json` remains `UNLICENSED`; the root `LICENSE` explicitly grants no redistribution permission for our own files yet. Third-party licensing is independent.
+The project owner selected the MIT License for both the plugin code and the complete bundled reflection collection on 2026-09-24 UTC.
 
-Recommended simple option: use the MIT License for both the plugin source and the bundled English reflection collection. Include the author name `the flying markhor` and year `2026`. This allows downstream reuse, including commercial reuse, subject to the license terms. The owner can instead choose a separate license for the reflection collection before publication.
+The root [LICENSE](../LICENSE) applies to this project's source, documentation, and all 366 reflections, including `src/content/wisdom.json` and `docs/CONTENT.md`. Copyright attribution: **2026 the flying markhor**.
 
-Before public release, replace the root notice with the selected full license text, update `package.json`, state clearly whether `src/content/wisdom.json` and `docs/CONTENT.md` are included, and regenerate the installation package. Do not publish the current pre-release notice as if an open-source license had already been selected.
+Third-party components retain their own copyright notices and licenses; see [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). The install package includes both license files, and the bundled JavaScript carries the license and third-party notices.
+
+This file retains its earlier proposal filename so existing links remain valid. The license choice is complete; it is no longer a pending release decision.

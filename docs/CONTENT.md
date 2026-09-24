@@ -1552,7 +1552,7 @@ These contemporary reflections draw loosely on several philosophical traditions 
 ### 08-11
 
 > [!note] An Image You Outgrew
-> An object or habit may belong more to the person you once hoped to appear than to the life you now enjoy. You are allowed to notice that the fit has changed.
+> An object or habit may belong more to an image you once hoped to project than to the life you now enjoy. You are allowed to notice that the fit has changed.
 >
 > *What no longer feels like you?*
 
@@ -2059,7 +2059,7 @@ These contemporary reflections draw loosely on several philosophical traditions 
 ### 10-25
 
 > [!note] Choose the Useful Difficulty
-> Some difficulties belong to learning; others come from poor instructions, missing tools, or an awkward arrangement. Distinguish them. Effort is easier to direct when you know which obstacle it serves to keep.
+> Some difficulties belong to learning; others come from poor instructions, missing tools, or an awkward arrangement. Distinguish them. Effort is easier to direct when you know which challenges help you learn.
 >
 > *Which difficulty is worth working through?*
 
@@ -2117,7 +2117,7 @@ These contemporary reflections draw loosely on several philosophical traditions 
 
 ### 11-02
 
-> [!note] A Thanks with a Name
+> [!note] Thanks with a Name
 > Tell someone what they did and what it made possible for you. A specific acknowledgment can show them the part of their effort you noticed.
 >
 > *What would you like this person to know you appreciated?*

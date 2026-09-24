@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.0.0 — unreleased development preview
+## 1.0.0 — prepared for initial release
+
+- License the code, documentation, and all 366 reflections under MIT, with the license embedded in the distributable bundle.
+- Complete the collection's final editorial read-through and correct three small wording issues; preserve existing notes and all calendar assignments.
 
 - Align batch-dialog buttons to the lower right, including Done after backfill or deletion and Close after an error.
 - Place a brief introduction above the settings list and remove the About this edition row.
@@ -14,4 +17,4 @@
 - Add date-range previews, cancellable backfill and removal, and an option to disable automatic insertion during cleanup.
 - Add offline operation, minimal settings, content validation, automated tests, and reproducible installation packaging.
 
-This version has not been published to Obsidian Community plugins. Real-app platform verification and public licensing are still pending.
+This version has not been published to Obsidian Community plugins. The owner reports that the main macOS workflow works. Actual mobile, exact minimum-version, and detailed platform verification remain pending; see `docs/TESTING.md`.

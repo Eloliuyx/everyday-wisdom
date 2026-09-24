@@ -116,7 +116,7 @@ Daily Notes 的文件夹、日期格式和模板来自用户当前配置。V1 �
 
 ### M7：准备可以公开交付的版本
 
-完成 README、使用说明、隐私说明、已知限制、更新日志、作者信息、支持渠道和许可文件。源码与内置文字的许可范围需要写清；MIT 可作为待确认的源码许可方案。官方要求提供许可证并遵守依赖许可。[开发者政策](https://docs.obsidian.md/community-directory/developer-policies)
+完成 README、使用说明、隐私说明、已知限制、更新日志、作者信息、支持渠道和许可文件。产品负责人已于 2026-09-24 UTC 确认源码与全部内置文字统一采用 MIT。官方要求提供许可证并遵守依赖许可。[开发者政策](https://docs.obsidian.md/community-directory/developer-policies)
 
 引入[官方 ESLint 检查](https://github.com/obsidianmd/eslint-plugin)，运行类型检查、必要测试和生产构建。锁定依赖；让干净环境能够从发布对应提交构建出相同插件。官方审核也会检查构建及其对应源码。[审核 FAQ](https://docs.obsidian.md/community-directory/faq)
 

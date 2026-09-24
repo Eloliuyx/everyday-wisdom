@@ -1,81 +1,96 @@
 # Everyday Wisdom
 
-One thoughtful reflection for each date in your Daily Notes, entirely offline.
+A brief pause before the rest of your daily note.
 
-Everyday Wisdom adds a short English reflection to the top of a daily note, after its properties. The collection contains 366 original reflections, including February 29. Most end with an optional question; some simply offer something to notice. They are contemporary reflections, not attributed historical quotations.
+Everyday Wisdom adds a short English reflection to your Obsidian Daily Notes. Its 366 reflections follow a fixed calendar, including February 29. Everything works offline, with no account required.
 
-**Status:** private development preview, not yet approved or listed in Obsidian Community plugins. See [release readiness](docs/RELEASE_READINESS.md) for tested and untested areas.
+> **A Modest Beginning**
+>
+> A new year can begin with an ordinary act done carefully. A promise starts to mean something when you give it a place in your day.
+>
+> *What small action would make your intention visible today?*
 
-## How it works
+The collection contains contemporary reflections, not attributed historical quotations. Most end with an optional question; 64 simply offer something to notice. Nothing needs to be answered or completed.
 
-- Turn **Automatic insertion** on in settings: daily notes created afterwards receive a reflection selected by their own date, even for a past or future date.
-- Turn it off: new notes stay as you create them. Reflections already written are kept.
-- Open an existing note, including today's note, or restart Obsidian: nothing is added. Turning the switch on does not backfill existing notes.
-- There is no individual manual-insertion command, shortcut, or context-menu action. Use **Backfill** when you explicitly want to fill existing daily notes.
-- Existing reflections stay as written. Running an insertion again does not duplicate them, including after you edit their visible text.
+## Get started
 
-The date-to-reflection mapping repeats annually. March 1 always selects March 1, regardless of leap years. The 64 entries without questions do not display an empty question label.
+Requires **Obsidian 1.13.1 or later** and the **Daily notes** core plugin.
 
-## Install the development preview
+1. Enable Daily notes and choose its folder, date format, and optional template.
+2. Enable Everyday Wisdom, then open its settings.
+3. Leave **Automatic insertion** on and create a new daily note as usual.
 
-Requires Obsidian **1.13.1 or later**. This minimum follows the settings API used by the plugin; platform testing is still pending.
+The reflection appears after the note's properties and before the body. You can choose the bottom of the note instead.
 
-1. Use an isolated test vault for this preview. Build the project below, or obtain its current installation ZIP from the project owner.
-2. Extract the `everyday-wisdom` folder into `<vault>/.obsidian/plugins/`.
-3. In Obsidian, enable Community plugins and enable **Everyday Wisdom**.
-4. Enable the **Daily notes** core plugin and configure its folder, date format, and optional template.
-5. Make sure **Automatic insertion** is on, then create a new daily note as usual.
+- The note's date chooses the reflection, including past or future dates. March 1 always receives the same entry, regardless of leap years.
+- Turning the switch off stops additions to new notes and keeps existing reflections.
+- Opening an existing note, enabling the switch, or restarting Obsidian does not add missing reflections. Use **Backfill** for existing notes.
+- Reflections are ordinary Markdown. They stay in your notes after the plugin is disabled or uninstalled. Updating the collection does not rewrite them.
 
-Use a complete calendar date format such as `YYYY-MM-DD`, `D MMMM YYYY`, or `YYYY/MM/DD` (date-based subfolders). The full path relative to the daily-note folder must match the format exactly. Yearless, month-only, week-date, and ordinal-day formats are currently unsupported. Notes outside that folder or with ambiguous dates are left alone.
+## Installation
 
-If Periodic Notes has daily notes enabled, the daily-notes helper uses its daily settings in preference to the core plugin. This compatibility path is not yet tested in the actual app. Core Daily notes is the support baseline.
+The community-directory listing is not available yet. Until it is approved, install from a published [GitHub release](https://github.com/Eloliuyx/everyday-wisdom/releases).
 
-## Settings and batch operations
+1. Download `everyday-wisdom-1.0.0.zip` and extract it.
+2. Put the `everyday-wisdom` folder inside `<vault>/.obsidian/plugins/` (or your vault's custom configuration folder).
+3. Reload Obsidian, enable Community plugins, and enable **Everyday Wisdom**.
 
-**Automatic insertion** controls newly created daily notes. Its saved state is restored after restarting. Switching it on affects subsequent creations only. **Insert position** can be changed to the end of the note; already inserted reflections are not moved.
+To update a manual installation, replace `main.js`, `manifest.json`, and `styles.css` in that folder, then disable and re-enable the plugin. Keep `data.json` to preserve your settings.
 
-**Backfill** accepts a date range or all existing daily notes. A preview shows which notes will change and which will be skipped. Confirm to apply it. It never creates files for missing dates.
+## Settings
 
-**Deletion** removes reflections, never note files, and requires a preview and confirmation. Only intact, unchanged marked blocks are removed. Edited blocks, unclear markers, and personal writing are kept. A note with a mix of edited and unchanged blocks is kept in full. Automatic insertion is turned off by default when deletion is confirmed; you can opt out in the dialog.
+| Setting | What it does |
+| --- | --- |
+| Automatic insertion | Add a reflection only to daily notes created while this is on. The choice is saved. |
+| Insert position | Place new reflections after properties or at the end. Existing reflections stay where they are. |
+| Backfill | Preview and fill missing reflections in a date range or all existing daily notes. Missing dates do not create files. |
+| Deletion | Preview and remove unchanged reflections generated by this plugin. Keep note files, personal writing, and edited reflections. |
 
-You can stop a batch after the current note. Results report updates, skips, failures, and notes not processed. A note changed since preview is skipped. The preview is not a backup; use your usual vault backup and sync practices.
+Backfill and Deletion ask for confirmation after a preview. You can stop after the current note. Results show updates, skips, failures, and notes not processed. Notes changed after preview are skipped. Deletion turns automatic insertion off by default; you can keep it on for future notes instead. There is no individual insertion command or context-menu action.
 
-## Your notes and privacy
+## Supported daily-note dates
 
-Inserted reflections are ordinary Markdown callouts with identifying comments. These are permanent metadata for duplicate detection and safe cleanup, not test-version messages. The plugin hides intact marker lines in **Live Preview**, including existing reflections. They are HTML comments and are not displayed in **Reading view**. **Source mode** intentionally shows the underlying Markdown, including markers. Broken markers remain visible for inspection. The display extension never changes the stored note.
+Use a complete calendar date format such as `YYYY-MM-DD`, `D MMMM YYYY`, or `YYYY/MM/DD` for date-based subfolders. The path relative to the daily-note folder must match the format exactly. Notes outside that folder, yearless or month-only dates, week dates, and ordinal-day formats are left alone.
 
-Keep the comments if you want duplicate detection and safe cleanup. Editing inside a generated block causes cleanup to preserve it. Removing all its identifying comments makes it ordinary writing that the plugin cannot identify.
+Core Daily notes is the supported baseline. If Periodic Notes has daily notes enabled, the bundled helper uses its daily settings instead; that integration has not been tested in the actual app.
 
-Your properties and existing body text are preserved. Removal may leave blank separator lines in place. Disabling or uninstalling the plugin leaves all written text in your notes. Updating the content collection does not rewrite existing reflections.
+## Your writing stays yours
 
-There are no accounts, telemetry, AI calls, remote content fetches, or background network requests. **Help and feedback** opens this repository only when clicked. **Feed the Markhor 🦌🪽**, centered below the settings, opens [the author's Ko-fi page](https://ko-fi.com/flyingmarkhor) only when clicked. Neither link sends note content. The content and required helper code are bundled. This plugin does not provide its own sync or resolve simultaneous edits from multiple devices.
+The plugin preserves properties and existing body text. Identifying HTML comments prevent duplicates and allow safe removal. They are hidden in Live Preview and Reading view; Source mode shows the original Markdown. Keep these comments if you want duplicate detection and cleanup to work.
 
-## Known limitations
+Edited reflections and damaged markers are preserved. If a note contains both edited and unchanged blocks, Deletion keeps the whole note unchanged. Removing all the identifying comments makes a reflection ordinary text that the plugin can no longer recognize. Cleanup may leave blank separator lines in place.
 
-- Desktop and mobile app acceptance testing is not yet complete. `isDesktopOnly: false` expresses the intended mobile compatibility; it is not evidence of iOS or Android testing.
-- The template handling waits for a brief quiet period and watches changes to newly created notes for ten seconds. Arbitrary asynchronous Templater scripts beyond that window are not guaranteed; use Backfill to recover a missing reflection after the template finishes.
-- Imported/synced files emitting a create event after vault startup may be treated as newly created daily notes. Turn automatic insertion off before an import if needed.
-- Simultaneous windows with different unsaved content are left alone. Reconcile them before retrying Backfill.
-- The plugin requires a recognizable daily-note date; it does not apply to arbitrary Markdown notes.
+## Privacy
+
+There are no accounts, payments required for features, telemetry, AI calls, remote content downloads, or background network requests. All reflections and helper code are bundled. The plugin operates inside your vault and does not access files elsewhere.
+
+**Help and feedback** opens GitHub only when clicked. The optional **Feed the Markhor 🦌🪽** button opens [Ko-fi](https://ko-fi.com/flyingmarkhor) only when clicked. Neither link sends note content.
+
+## Compatibility and known limitations
+
+- The owner has tested the main workflow on macOS. The detailed acceptance record is in [TESTING.md](docs/TESTING.md). Actual iOS, Android, and minimum-version testing remains pending; mobile compatibility is intended, not yet verified.
+- Template handling waits for a short quiet period and watches newly created notes for ten seconds. Arbitrary asynchronous Templater scripts beyond that window may require Backfill after the template finishes.
+- Imported or synced files that emit a create event after vault startup may be treated as new daily notes. Turn automatic insertion off before an import if needed.
+- Open views with different unsaved content are left alone. Reconcile them before retrying Backfill.
+- The plugin does not provide sync or resolve simultaneous edits from multiple devices. Keep your usual vault backups.
 
 ## Build and test
 
-Use Node.js 24 and npm. macOS/Linux packaging also requires `zip`.
+Use Node.js 24 and npm. Packaging on macOS/Linux also requires `zip`.
 
 ```sh
 npm ci
 npm run package
-npm run test:vault
 ```
 
-The package is `dist/everyday-wisdom-1.0.0.zip`. `dist/main.js`, `dist/manifest.json`, and `dist/styles.css` are the separate future release attachments. The test-vault command creates `test-vault/` with the plugin and sample notes; it refuses to overwrite an existing folder. Open that folder as a vault in Obsidian. It does not alter or register any personal vault.
+This runs ESLint, unit and integration tests, TypeScript checks, all 366 content checks, and the production build. Tests use mock Obsidian APIs and real CodeMirror state; they do not replace real-app verification. Runtime imports are limited to host-provided Obsidian and CodeMirror APIs, with no Node/Electron dependencies.
 
-`npm run check` runs the official Obsidian ESLint rules, tests, type checking, content checks, and a production build. The bundle imports only host-provided Obsidian and CodeMirror APIs at runtime, with no Node/Electron dependencies. Tests use mock Obsidian APIs and real CodeMirror state and do not replace real-app verification.
+The install ZIP, separate release attachments, and SHA-256 checksums are written to `dist/`. `npm run test:vault` creates an isolated `test-vault/` for local testing and refuses to overwrite an existing folder.
 
-## Content, license, and support
+## Content and license
 
-Content edition: **0.4**, English, 366 dates. Read the [collection](docs/CONTENT.md) and [content QA report](docs/CONTENT_QA_REPORT.md).
+English content edition **0.4**: [read all 366 reflections](docs/CONTENT.md), the [editorial review](docs/EDITORIAL_REVIEW.md), and [content checks](docs/CONTENT_QA_REPORT.md).
 
-The public license is pending owner selection; see [LICENSE](LICENSE) and the [proposal](docs/LICENSING_PROPOSAL.md). Third-party licensing is in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The code, documentation, and complete reflection collection are licensed under the [MIT License](LICENSE). Third-party components retain their own notices in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-Author: **the flying markhor**. Report a problem through [GitHub Issues](https://github.com/Eloliuyx/everyday-wisdom/issues), including the plugin/Obsidian versions, daily-note format, and a minimal example without private writing.
+Made by **the flying markhor**. For help, [open an issue](https://github.com/Eloliuyx/everyday-wisdom/issues) with your plugin and Obsidian versions, daily-note format, and a minimal example without private writing.

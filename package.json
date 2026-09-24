@@ -19,7 +19,7 @@
     "test:vault": "node scripts/create-test-vault.mjs"
   },
   "author": "the flying markhor",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "obsidian-daily-notes-interface": "0.9.5"
   },
