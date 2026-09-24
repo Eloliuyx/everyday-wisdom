@@ -1,6 +1,6 @@
 # Everyday Wisdom — release readiness
 
-Updated 2026-09-24 UTC. **Source is public under MIT. GitHub 1.0.0 and the community listing are published. Official automated review passed and Add to Obsidian is available; a fresh-vault store installation check remains.**
+Updated 2026-09-24 UTC. **Source is public under MIT. GitHub 1.0.0 and the community web listing are published. Official automated review passed. The web Add to Obsidian link is available, but app-directory synchronization and a fresh-vault store installation check remain.**
 
 Repository: https://github.com/Eloliuyx/everyday-wisdom. The owner requested the same public, MIT-licensed approach as Everyday Classical Music, and the repository was made public on 2026-09-24 UTC. [Release 1.0.0](https://github.com/Eloliuyx/everyday-wisdom/releases/tag/1.0.0) was published at 04:46:06 UTC that day, from commit `6548b3ec726b2890432e142fd31427e3f3d1dc26`. See [publishing handoff](PUBLISH.zh-CN.md) and [release notes](releases/1.0.0.md).
 
@@ -25,6 +25,10 @@ Author: **the flying markhor**, consistent with the owner's published Everyday C
 - Published source, bundle, README disclosures, and licensing checked against developer policies; no violation identified. See [POLICY_REVIEW.md](POLICY_REVIEW.md). This is not an official approval.
 - The owner completed community submission. At 04:58 UTC on 2026-09-24, the management page showed Completed for 1.0.0, commit `6548b3e`. The [public listing](https://community.obsidian.md/plugins/everyday-wisdom) showed Health Excellent, Review Passed, and an enabled Add to Obsidian link. There were no Errors or Warnings; three non-blocking Recommendations are recorded in [POLICY_REVIEW.md](POLICY_REVIEW.md).
 
+## App-directory synchronization
+
+At 05:03 UTC on 2026-09-24, the owner reported no result in app search. A fresh download of the [official app registry](https://github.com/obsidianmd/obsidian-releases/blob/master/community-plugins.json) contained 7,994 entries, including Everyday Classical Music, but no `everyday-wisdom`. The management page still showed the same completed review with no Errors or Warnings. [Obsidian's official announcement](https://obsidian.md/blog/future-of-plugins/) says approved plugins become searchable and downloadable in the app within 24 hours. This evidence is consistent with the directory not having synchronized yet; no resubmission is indicated. The enabled website link alone did not verify app installation.
+
 ## Validation limits
 
 The user's main-workflow acceptance is not a pass for every row of [TESTING.md](TESTING.md). Actual iOS/Android, Obsidian 1.13.1, detailed large-vault, offline-app, and cross-device tests remain pending. Minimum 1.13.1 follows the settings API requirements. Mobile compatibility is intended but has not been verified.
@@ -41,10 +45,10 @@ The current environment cannot obtain a new assisted UI session: Computer Use pe
 | M6 Platforms | Partial: macOS basic workflow checked by owner; mobile and exact minimum version unverified. |
 | M7 Release preparation | License, content, package, README, and notes complete. GitHub 1.0.0 published and public downloads verified. Full platform acceptance and optional screenshots remain. |
 | M8 Submission/review | Complete. Official automated review passed for 1.0.0 with no Errors or Warnings. |
-| M9 Store installation | Listing is live and Add to Obsidian is available. A fresh-vault installation and workflow check remains unverified. |
+| M9 Store installation | Web listing is live, but the app registry has not synchronized yet. A fresh-vault installation and workflow check remains unverified. |
 
 ## Publication steps remaining
 
-1. Use the public Add to Obsidian link and verify installation and core workflows in a fresh vault. No additional Publish action was required in the observed submission flow.
+1. Allow the app directory to synchronize, then use the public Add to Obsidian link and verify installation and core workflows in a fresh vault. If still absent after the documented 24-hour window, recheck the registry and review status before escalating to Obsidian support. No additional Publish action was required in the observed submission flow.
 
 Current official process verified on 2026-09-24 UTC: [submission guide](https://docs.obsidian.md/plugins/releasing/submit-plugin), [plugin requirements](https://docs.obsidian.md/community-directory/submission-requirements-for-plugins), and [developer policies](https://docs.obsidian.md/community-directory/developer-policies).

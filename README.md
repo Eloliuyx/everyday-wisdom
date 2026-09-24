@@ -31,6 +31,8 @@ The reflection appears after the note's properties and before the body. You can 
 
 Install from the [Obsidian Community listing](https://community.obsidian.md/plugins/everyday-wisdom) using **Add to Obsidian**, then install and enable **Everyday Wisdom** in Obsidian.
 
+For a newly approved plugin, [Obsidian says app search and downloads can take up to 24 hours to become available](https://obsidian.md/blog/future-of-plugins/). A live web listing does not mean the app directory has synced yet. If the app cannot find the plugin, wait for that sync or use the manual installation below.
+
 For a manual installation, use the published [GitHub release](https://github.com/Eloliuyx/everyday-wisdom/releases):
 
 1. Download `everyday-wisdom-1.0.0.zip` and extract it.

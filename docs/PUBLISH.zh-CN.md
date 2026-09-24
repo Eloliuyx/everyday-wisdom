@@ -31,6 +31,8 @@ iOS、Android、最低版本、跨设备同步和详细大库压力测试尚未�
 
 产品负责人已亲自完成提交。2026-09-24 04:58 UTC 核对：[管理页面](https://community.obsidian.md/account/plugins/everyday-wisdom)显示版本 `1.0.0`、提交 `6548b3e` 的审核状态为 **Completed**；[公开页面](https://community.obsidian.md/plugins/everyday-wisdom)显示 **Health Excellent / Review Passed**，**Add to Obsidian** 链接已经可用。本次没有额外的 Publish 操作。
 
+**应用目录尚待同步：** 05:03 UTC，用户反馈应用内搜索不到；实际下载官方应用目录核对，7,994 个条目中已有 Everyday Classical Music，但还没有 Everyday Wisdom。官网安装链接开放不等于应用已收到新条目。[官方说明](https://obsidian.md/blog/future-of-plugins/)为审核通过后 24 小时内可在应用搜索、下载。当前等待同步即可，无需重复提交；超过该窗口仍未出现，再检查并反馈。
+
 没有 Error 或 Warning。三条非阻断建议是补充 GitHub 构建来源证明、提示额外附件不会由 Obsidian 下载，以及提示插件会枚举库内文件路径。具体记录见 [审核记录](POLICY_REVIEW.md)。
 
 以下保留完整流程供后续发布参考；本次已完成第 1–6 步，第 7 步的全新库实际安装验收尚待完成：
@@ -43,6 +45,6 @@ iOS、Android、最低版本、跨设备同步和详细大库压力测试尚未�
 6. 审核阻断项解决后，完成目录要求的后续发布操作，并核对实际可安装状态。
 7. 最后在全新 vault 中从插件商店搜索、安装、启用，验证新建日记和 Backfill/Deletion。
 
-GitHub Release 发布与 Obsidian 上架是两步。本次均已完成，官方自动审核通过；尚待全新库中的实际安装和功能验收。
+GitHub Release 与社区网页均已发布，官方自动审核通过；尚待应用目录同步，以及全新库中的实际安装和功能验收。
 
 官方依据：[提交指南](https://docs.obsidian.md/plugins/releasing/submit-plugin)、[开发者政策](https://docs.obsidian.md/community-directory/developer-policies)、[账号与提交表单](https://docs.obsidian.md/community-directory/set-up-and-claim)。于 2026-09-24 UTC 核对。
