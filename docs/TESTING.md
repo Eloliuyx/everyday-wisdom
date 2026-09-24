@@ -4,11 +4,11 @@ Recorded 2026-09-24 UTC. Version: 1.0.0 development preview; content 0.4.
 
 ## Automated verification
 
-`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **51 tests passed** on 2026-09-24 UTC. Tests exercise pure transforms, plugin event/write integration with mock Obsidian APIs, and marker decorations using real CodeMirror state. They do not test Obsidian's actual editor rendering or settings renderer.
+`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **54 tests passed** on 2026-09-24 UTC. Tests exercise pure transforms, plugin event/write integration with mock Obsidian APIs, and marker decorations using real CodeMirror state. They do not test Obsidian's actual editor rendering or settings renderer.
 
 Covered: leap and century years; annual mapping; date folders, custom formats, localized tokens, and invalid/incomplete dates; optional questions; BOM/CRLF/frontmatter; duplicate and edited blocks; code/quoted marker examples; malformed markers; preview/write races; cancellation; individual write failures; concurrent insertion; dirty editors; differing open editors; startup discovery; historical opening; creation for past dates; delayed template writes; disabling/unloading; automatic suspension during batches.
 
-The preview updates additionally cover Live Preview / Source mode switching, paired-marker ranges, damaged/code-example markers, edited reflection bodies, position changes after typing, adjacent blocks/BOM, and editor-menu insertion. Editor-menu tests verify the clicked editor's unsaved content and date even when another note is active; opening the menu never writes; repeated clicks stay idempotent; switching files, non-daily contexts, batch activity, and unload stop the action. The support-footer CSS was compared with Everyday Classical Music and matches exactly after renaming its plugin-specific class prefix.
+The latest direction removes individual insertion commands and menus. Tests cover switch-on timing, notes created while off, saved-off startup, preservation of already inserted reflections when disabled, and no reinsertion into existing notes after cleanup/restart. They also verify that no insertion command or editor/file context-menu handler is registered. Live Preview / Source mode tests cover paired-marker ranges, damaged/code-example markers, edited reflection bodies, position changes after typing, and adjacent blocks/BOM. The support-footer CSS matches Everyday Classical Music after class-prefix renaming.
 
 Build graph verification: the production bundle imports only host-provided `obsidian`, `@codemirror/state`, and `@codemirror/view`. Bundled third-party code is the tree-shaken daily-notes helper and the adapted music-plugin support footer; notices are included. No `fetch`, XMLHttpRequest, WebSocket, or requestUrl call was found in the production bundle. A real offline-app test remains pending. Ko-fi opens only from an explicit button click.
 
@@ -32,16 +32,16 @@ All rows below are **pending actual-app verification**. Record platform, app ver
 | Scenario | Expected result |
 | --- | --- |
 | Create today's Daily Note with supplied template | Properties first, one reflection, then template/body unchanged. |
-| Reopen today; trigger insertion twice rapidly | Exactly one marked reflection. |
-| Open existing historical note | No automatic insertion. Manual command uses its date. |
+| Reopen today's existing note, including one with no reflection | No automatic changes. |
+| Open existing historical note | No automatic changes. Backfill can add its own date's reflection when explicitly requested. |
+| Create while off, turn switch on, then create another date | Only the note created after enabling receives a reflection. |
 | Create an explicit past/future daily note | One reflection for that date. |
 | Create Feb 29 in a leap year; open March 1 in common/leap years | Correct Feb 29; identical March 1 content across years. |
 | Dates in configured subfolders/custom calendar formats | Recognized correctly; other folders and ambiguous formats untouched. |
 | No-question date | No empty prompt or label. |
 | Switch between Live Preview and Reading mode | Same callout; no visible markers; one title. |
 | Live Preview / Source mode toggle, existing reflections, malformed markers | Intact marker lines hidden only in Live Preview, no stored-text changes; Source mode and malformed markers remain inspectable. |
-| Manual insertion from the editor context menu | Right-click the daily note's body, choose Insert reflection in the top-level menu; use that editor's date and unsaved text, even if another note is active. No manual entry in plugin settings or file-explorer menus. |
-| Custom shortcut | Assign the Insert reflection command in Hotkeys; it inserts once in the active daily note. No default key conflict introduced. |
+| Individual manual insertion removed | No Insert reflection action in editor/file menus, command palette, plugin settings, or registered hotkey commands. |
 | Donation footer | Standalone centered Feed the Markhor button matches music plugin; no request on settings open/search; click opens the correct Ko-fi URL. |
 | Dark/light themes, narrow viewport, long title | Legible, wrapping content; no horizontal overflow. |
 | All settings and modal actions using keyboard | Focus visible and every action reachable; Escape cancels safely. |
@@ -53,11 +53,11 @@ All rows below are **pending actual-app verification**. Record platform, app ver
 | Cancel during a large batch; retry | Counts accurate; completed changes kept; retry is idempotent. |
 | Remove: intact, edited, mixed, malformed, and sample markers | Only unedited valid blocks removed; personal writing intact. |
 | Remove with automatic-off default | Setting persists off after restart. |
-| Remove with automatic left on | Reopening today can reinsert, as the confirmation explains. |
+| Remove with automatic left on | Only future creations receive reflections. Reopening the cleaned note or restarting leaves it unchanged. |
 | Disable/re-enable plugin; restart; replace plugin build | No writes after unload; existing blocks unchanged after upgrade. |
 | Offline run | All core operations work without network. |
 | Two-device sync or simultaneous changes | No lost user text; any sync conflicts documented; no blanket conflict-resolution promise. |
-| Actual iOS and Android | Repeat creation, manual insert, settings, fill, removal, cancellation, restart. |
+| Actual iOS and Android | Repeat switch on/off, creation, existing-note opening, fill, removal, cancellation, restart. |
 | Minimum declared version 1.13.1 | Plugin loads and all required APIs/settings work. |
 
 Arbitrary Templater scripts, Periodic Notes, and dual-device sync have not been integration-tested. Do not convert mock-test coverage into a platform support claim.

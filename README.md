@@ -8,10 +8,10 @@ Everyday Wisdom adds a short English reflection to the top of a daily note, afte
 
 ## How it works
 
-- Create a daily note: its own date selects the reflection, even for a past or future date.
-- Open today's note: a missing reflection is added automatically.
-- Read an older note: nothing is added just from opening it.
-- Right-click inside the text of a daily note and choose **Insert reflection** to add one manually. It appears directly in the editor menu, without opening the built-in Insert submenu. There is no manual-insert entry in the file explorer menu or this plugin's settings.
+- Turn **Automatic insertion** on in settings: daily notes created afterwards receive a reflection selected by their own date, even for a past or future date.
+- Turn it off: new notes stay as you create them. Reflections already written are kept.
+- Open an existing note, including today's note, or restart Obsidian: nothing is added. Turning the switch on does not backfill existing notes.
+- There is no individual manual-insertion command, shortcut, or context-menu action. Use **Backfill** when you explicitly want to fill existing daily notes.
 - Existing reflections stay as written. Running an insertion again does not duplicate them, including after you edit their visible text.
 
 The date-to-reflection mapping repeats annually. March 1 always selects March 1, regardless of leap years. The 64 entries without questions do not display an empty question label.
@@ -24,7 +24,7 @@ Requires Obsidian **1.13.1 or later**. This minimum follows the settings API use
 2. Extract the `everyday-wisdom` folder into `<vault>/.obsidian/plugins/`.
 3. In Obsidian, enable Community plugins and enable **Everyday Wisdom**.
 4. Enable the **Daily notes** core plugin and configure its folder, date format, and optional template.
-5. Create a daily note as usual.
+5. Make sure **Automatic insertion** is on, then create a new daily note as usual.
 
 Use a complete calendar date format such as `YYYY-MM-DD`, `D MMMM YYYY`, or `YYYY/MM/DD` (date-based subfolders). The full path relative to the daily-note folder must match the format exactly. Yearless, month-only, week-date, and ordinal-day formats are currently unsupported. Notes outside that folder or with ambiguous dates are left alone.
 
@@ -32,9 +32,7 @@ If Periodic Notes has daily notes enabled, the daily-notes helper uses its daily
 
 ## Settings and batch operations
 
-For a keyboard shortcut, open **Settings → Hotkeys**, search **Everyday Wisdom: Insert reflection**, and assign your preferred keys. The same command is available through **Cmd+P** (macOS) or **Ctrl+P** (Windows/Linux). No shortcut is assigned by default.
-
-**Automatic insertion** can be turned off. **Insert position** can be changed to the end of the note; already inserted reflections are not moved.
+**Automatic insertion** controls newly created daily notes. Its saved state is restored after restarting. Switching it on affects subsequent creations only. **Insert position** can be changed to the end of the note; already inserted reflections are not moved.
 
 **Backfill** accepts a date range or all existing daily notes. A preview shows which notes will change and which will be skipped. Confirm to apply it. It never creates files for missing dates.
 
@@ -55,9 +53,9 @@ There are no accounts, telemetry, AI calls, remote content fetches, or backgroun
 ## Known limitations
 
 - Desktop and mobile app acceptance testing is not yet complete. `isDesktopOnly: false` expresses the intended mobile compatibility; it is not evidence of iOS or Android testing.
-- The template handling waits for a brief quiet period and watches changes to newly created notes for ten seconds. Arbitrary asynchronous Templater scripts beyond that window are not guaranteed; the manual command remains available.
+- The template handling waits for a brief quiet period and watches changes to newly created notes for ten seconds. Arbitrary asynchronous Templater scripts beyond that window are not guaranteed; use Backfill to recover a missing reflection after the template finishes.
 - Imported/synced files emitting a create event after vault startup may be treated as newly created daily notes. Turn automatic insertion off before an import if needed.
-- Simultaneous windows with different unsaved content are left alone. Reconcile them before retrying a manual or bulk command.
+- Simultaneous windows with different unsaved content are left alone. Reconcile them before retrying Backfill.
 - The plugin requires a recognizable daily-note date; it does not apply to arbitrary Markdown notes.
 
 ## Build and test

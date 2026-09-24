@@ -11,13 +11,13 @@ Plugin version `1.0.0`; content edition `0.4`; author `the flying markhor` (carr
 ## Implemented
 
 - 366 bundled English reflections, stable MM-DD selection and leap-day handling.
-- Automatic creation/today-open insertion and a manual insert command.
+- A saved automatic-insertion switch for newly created daily notes only. Existing notes are not changed on opening, enabling the switch, or restarting.
 - Settings for automatic insertion and top/bottom position.
 - Hidden markers, edit checksums, frontmatter preservation, idempotence, and safe cleanup.
 - Date-range/all-existing backfill and removal with preview, explicit confirmation, cancellation, and outcome counts.
 - Latest-content writes, serialized per-note updates, editor-aware mutation, and preview-change detection.
 - Local-only runtime, official ESLint rules, automated tests, content QA, build checks, install ZIP, and a dedicated test-vault generator.
-- Live Preview metadata hiding; manual insertion directly from the daily-note editor context menu, with a command for custom hotkeys; Backfill/Deletion labels; the same standalone Ko-fi footer as Everyday Classical Music.
+- Live Preview metadata hiding; no individual insertion menus, commands, or shortcuts; Backfill/Deletion actions; the same standalone Ko-fi footer as Everyday Classical Music.
 
 ## Milestone status
 

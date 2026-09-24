@@ -1,5 +1,4 @@
-import { MarkdownView, Notice, Plugin, TFile, type Editor } from 'obsidian';
-import { moment } from './clock';
+import { MarkdownView, Plugin, TFile } from 'obsidian';
 import { entryForDate } from './content';
 import { dailyConfig, dailyDate } from './daily-note';
 import { dateFromPath, inDateRange } from './date';
@@ -9,11 +8,6 @@ import { WisdomSettingTab } from './settings';
 import { BatchModal } from './ui/batch-modal';
 import type { Candidate } from './batch';
 import { hiddenWisdomMarkers } from './editor';
-
-interface NoteEditorContext {
-  editor: Editor;
-  getFile: () => TFile | null;
-}
 
 export default class EverydayWisdom extends Plugin {
   settings: WisdomSettings = { ...DEFAULT_SETTINGS };
@@ -27,27 +21,13 @@ export default class EverydayWisdom extends Plugin {
 
   async onload(): Promise<void> {
     this.settings = readSettings(await this.loadData());
+    this.ready = false;
     this.stopped = false;
     this.registerEditorExtension(hiddenWisdomMarkers);
     this.settingTab = new WisdomSettingTab(this);
     this.addSettingTab(this.settingTab);
-    this.addCommand({
-      id: 'insert-reflection', name: 'Insert reflection',
-      checkCallback: checking => {
-        const file = this.app.workspace.getActiveFile();
-        if (!file || !dailyDate(file.path) || this.bulkRunning) return false;
-        if (!checking) void this.insert(file, true);
-        return true;
-      },
-    });
     this.addCommand({ id: 'fill-missing', name: 'Backfill', callback: () => new BatchModal(this, 'fill').open() });
     this.addCommand({ id: 'remove-generated', name: 'Deletion', callback: () => new BatchModal(this, 'remove').open() });
-    this.registerEvent(this.app.workspace.on('editor-menu', (menu, editor, info) => {
-      const file = info.file;
-      if (!file || !dailyDate(file.path) || this.bulkRunning || this.stopped) return;
-      menu.addItem(item => item.setTitle('Insert reflection').setIcon('book-open-text')
-        .onClick(() => this.insert(file, true, { editor, getFile: () => info.file })));
-    }));
     this.registerInterval(window.setInterval(() => {
       for (const [path, expires] of this.newFiles) if (expires <= Date.now()) this.newFiles.delete(path);
     }, 10_000));
@@ -61,14 +41,9 @@ export default class EverydayWisdom extends Plugin {
       if ((this.newFiles.get(file.path) ?? 0) > Date.now()) this.schedule(file);
       else this.newFiles.delete(file.path);
     }));
-    this.registerEvent(this.app.workspace.on('file-open', file => {
-      if (file && dailyDate(file.path) === moment().format('YYYY-MM-DD')) this.schedule(file);
-    }));
     this.app.workspace.onLayoutReady(() => {
       if (this.stopped) return;
       this.ready = true;
-      const file = this.app.workspace.getActiveFile();
-      if (file && dailyDate(file.path) === moment().format('YYYY-MM-DD')) this.schedule(file);
     });
   }
 
@@ -97,7 +72,7 @@ export default class EverydayWisdom extends Plugin {
     if (old !== undefined) window.clearTimeout(old);
     const timer = window.setTimeout(() => {
       this.automaticTimers.delete(file.path);
-      if (!this.stopped && this.settings.automatic && !this.bulkRunning) void this.insert(file, false);
+      if (!this.stopped && this.settings.automatic && !this.bulkRunning) void this.insertIntoNewNote(file);
     }, 500);
     this.automaticTimers.set(file.path, timer);
   }
@@ -120,18 +95,13 @@ export default class EverydayWisdom extends Plugin {
     return this.app.vault.read(file);
   }
 
-  async mutateNote(path: string, transform: (text: string) => Change, context?: NoteEditorContext): Promise<Change> {
+  async mutateNote(path: string, transform: (text: string) => Change): Promise<Change> {
     const previous = this.queues.get(path) ?? Promise.resolve();
     const operation = previous.catch(() => undefined).then(async () => {
       if (this.stopped) return { text: '', status: 'unavailable', blocks: 0 } satisfies Change;
       const file = this.app.vault.getFileByPath(path);
       if (!file) return { text: '', status: 'unavailable', blocks: 0 } satisfies Change;
-      if (context && context.getFile()?.path !== path) return { text: '', status: 'unavailable', blocks: 0 } satisfies Change;
-      const openEditor = this.openEditor(path)?.editor;
-      if (context && openEditor && context.editor.getValue() !== openEditor.getValue()) {
-        throw new Error('Open views have different content.');
-      }
-      const editor = context?.editor ?? openEditor;
+      const editor = this.openEditor(path)?.editor;
       if (editor) {
         const before = editor.getValue();
         const change = transform(before);
@@ -158,22 +128,17 @@ export default class EverydayWisdom extends Plugin {
     finally { if (this.queues.get(path) === operation) this.queues.delete(path); }
   }
 
-  async insert(file: TFile, manual: boolean, context?: NoteEditorContext): Promise<void> {
+  private async insertIntoNewNote(file: TFile): Promise<void> {
     try {
       const date = dailyDate(file.path);
       const entry = date ? entryForDate(date) : null;
       if (!entry) return;
-      const change = await this.mutateNote(file.path, text => {
-        if (this.bulkRunning || (!manual && !this.settings.automatic)) return { text, status: 'unavailable', blocks: 0 };
+      await this.mutateNote(file.path, text => {
+        if (this.bulkRunning || !this.settings.automatic) return { text, status: 'unavailable', blocks: 0 };
         return insertReflection(text, entry, this.settings.position);
-      }, context);
-      if (manual) {
-        const message = change.status === 'inserted' ? 'Reflection added.' : change.status === 'existing'
-          ? 'This note already has a reflection.' : 'This note was left unchanged. Check its properties or reflection markers.';
-        new Notice(message);
-      }
+      });
     } catch {
-      if (manual) new Notice('Could not update this note. Your content was left in place.');
+      // Keep automatic insertion quiet. Backfill can retry skipped notes after the issue is resolved.
     }
   }
 

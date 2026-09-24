@@ -27,7 +27,7 @@ export class WisdomSettingTab extends PluginSettingTab {
     return [
       {
         name: 'Automatic insertion',
-        desc: 'Add a reflection to new daily notes and when opening today’s note. Historical notes are only filled on request.',
+        desc: 'Add a reflection to daily notes created while this is on. Existing notes stay unchanged; use backfill to fill them.',
         control: { type: 'toggle', key: 'automatic', defaultValue: true },
       },
       {

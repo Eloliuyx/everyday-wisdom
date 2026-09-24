@@ -56,21 +56,11 @@ function harness() {
     files.set(path, file); disk.set(path, text); return file;
   }
   return {
-    plugin, disk, app, note,
+    plugin, disk, app, note, workspaceEvents,
     create: (file: TFile) => vaultEvents.get('create')?.(file),
     modify: (file: TFile) => vaultEvents.get('modify')?.(file),
     ready: () => ready(),
     open: (file: TFile) => { active = file; workspaceEvents.get('file-open')?.(file); },
-    editorMenu: (info: { file: TFile | null }, editor: ReturnType<typeof makeEditor>) => {
-      const actions: Array<() => Promise<void>> = [];
-      const item = {
-        setTitle: (_text: string) => item,
-        setIcon: (_icon: string) => item,
-        onClick: (callback: () => Promise<void>) => { actions.push(callback); return item; },
-      };
-      workspaceEvents.get('editor-menu')?.({ addItem: (callback: (item: unknown) => void) => callback(item) }, editor, info);
-      return actions;
-    },
     editor: (file: TFile, initial: string) => {
       const editor = makeEditor(initial);
       const view = Object.assign(new MarkdownView({} as WorkspaceLeaf), { file, editor: editor as unknown as Editor });
@@ -87,17 +77,18 @@ beforeEach(() => {
 afterEach(() => { vi.clearAllTimers(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 describe('plugin event and write integration (mock Obsidian APIs)', () => {
-  test('does not fill historical notes on opening or initial vault discovery', async () => {
-    const h = harness(); await h.plugin.onload();
-    const old = h.note('Daily/2025-01-02.md', 'History');
+  test.each(['Daily/2025-01-02.md', 'Daily/2026-09-24.md'])('does not fill an existing note on startup or opening: %s', async path => {
+    const h = harness();
+    const old = h.note(path, 'Existing writing'); h.open(old);
+    await h.plugin.onload();
     h.create(old); h.ready(); h.open(old);
     await vi.advanceTimersByTimeAsync(1_000);
-    expect(h.disk.get(old.path)).toBe('History');
+    expect(h.disk.get(old.path)).toBe('Existing writing');
   });
-  test('today opens automatically once; a newly created historical note uses its own date', async () => {
+  test('new daily notes receive one reflection despite duplicate create/modify events', async () => {
     const h = harness(); await h.plugin.onload(); h.ready();
     const today = h.note('Daily/2026-09-24.md');
-    h.open(today); h.open(today); h.create(today);
+    h.create(today); h.create(today); h.modify(today); h.open(today);
     await vi.advanceTimersByTimeAsync(2_000);
     expect(scanBlocks(h.disk.get(today.path)!).blocks).toHaveLength(1);
     const past = h.note('Daily/2024-02-29.md'); h.create(past);
@@ -135,60 +126,67 @@ describe('plugin event and write integration (mock Obsidian APIs)', () => {
     expect(scanBlocks(h.disk.get(file.path)!).blocks).toHaveLength(1);
   });
   test('uses unsaved editor text and avoids writing a stale disk snapshot', async () => {
-    const h = harness(); await h.plugin.onload();
+    const h = harness(); await h.plugin.onload(); h.ready();
     const file = h.note('Daily/2026-09-24.md', 'Stale disk');
     const editor = h.editor(file, 'Unsaved personal writing');
-    await h.plugin.insert(file, true);
+    h.create(file); await vi.advanceTimersByTimeAsync(600);
     expect(editor.getValue()).toContain('Unsaved personal writing');
     expect(editor.getValue()).not.toContain('Stale disk');
     expect(h.app.vault.process).not.toHaveBeenCalled();
   });
   test('disagreeing editors are kept untouched', async () => {
-    const h = harness(); await h.plugin.onload();
+    const h = harness(); await h.plugin.onload(); h.ready();
     const file = h.note('Daily/2026-09-24.md', 'Disk');
     const one = h.editor(file, 'First editor'); const two = h.editor(file, 'Second editor');
-    await h.plugin.insert(file, true);
+    h.create(file); await vi.advanceTimersByTimeAsync(600);
     expect(one.getValue()).toBe('First editor'); expect(two.getValue()).toBe('Second editor');
     expect(h.app.vault.process).not.toHaveBeenCalled();
   });
-  test('editor menu targets the clicked editor and its unsaved content, not another active note', async () => {
+  test('enabling the switch affects only subsequent creations, not notes made while it was off', async () => {
     const h = harness(); await h.plugin.onload(); h.ready(); h.plugin.settings.automatic = false;
-    const target = h.note('Daily/2024-02-29.md', 'Stale disk content');
-    const other = h.note('Daily/2025-03-01.md', 'Other note');
-    const otherEditor = h.editor(other, 'Unsaved other note');
-    const editor = makeEditor('Unsaved target note');
-    const actions = h.editorMenu({ file: target }, editor);
-    expect(actions).toHaveLength(1);
-    expect(editor.getValue()).toBe('Unsaved target note'); // Opening the menu never writes.
-    await actions[0]!();
-    await actions[0]!();
-    expect(editor.getValue()).toContain(entryForDate('2024-02-29')!.title);
-    expect(editor.getValue()).toContain('Unsaved target note');
-    expect(scanBlocks(editor.getValue()).blocks).toHaveLength(1);
-    expect(otherEditor.getValue()).toBe('Unsaved other note');
+    const before = h.note('Daily/2026-09-24.md', 'Made while off'); h.create(before);
+    h.plugin.settings.automatic = true;
+    h.open(before); h.modify(before);
+    const after = h.note('Daily/2026-09-25.md', 'Made while on'); h.create(after);
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(h.disk.get(before.path)).toBe('Made while off');
+    expect(h.disk.get(after.path)).toContain(entryForDate('2026-09-25')!.title);
+    expect(h.disk.get(after.path)).toContain('Made while on');
+  });
+  test('the saved off switch is respected on startup', async () => {
+    const h = harness();
+    vi.spyOn(h.plugin, 'loadData').mockResolvedValue({ automatic: false, position: 'after-frontmatter' });
+    await h.plugin.onload(); h.ready();
+    const file = h.note('Daily/2026-09-24.md', 'Keep me'); h.create(file);
+    await vi.advanceTimersByTimeAsync(1_000);
+    expect(h.disk.get(file.path)).toBe('Keep me');
     expect(h.app.vault.process).not.toHaveBeenCalled();
   });
-  test('editor-menu action stops if its editor has switched files before the click', async () => {
-    const h = harness(); await h.plugin.onload(); h.plugin.settings.automatic = false;
-    const first = h.note('Daily/2024-02-29.md', 'First');
-    const second = h.note('Daily/2025-03-01.md', 'Second');
-    const info = { file: first };
-    const editor = makeEditor('Current writing');
-    const actions = h.editorMenu(info, editor);
-    info.file = second;
-    await actions[0]!();
-    expect(editor.getValue()).toBe('Current writing');
-    expect(h.app.vault.process).not.toHaveBeenCalled();
+  test('turning off preserves existing reflections and leaves subsequent creations alone', async () => {
+    const h = harness(); await h.plugin.onload(); h.ready();
+    const first = h.note('Daily/2026-09-24.md', 'First'); h.create(first);
+    await vi.advanceTimersByTimeAsync(600);
+    const saved = h.disk.get(first.path);
+    h.plugin.settings.automatic = false; h.plugin.clearAutomaticTasks();
+    const second = h.note('Daily/2026-09-25.md', 'Second'); h.create(second); h.open(first);
+    await vi.advanceTimersByTimeAsync(600);
+    expect(h.disk.get(first.path)).toBe(saved);
+    expect(h.disk.get(second.path)).toBe('Second');
   });
-  test('editor-menu action is omitted for non-daily notes, batches, or an unloaded plugin', async () => {
-    const h = harness(); await h.plugin.onload();
-    const editor = makeEditor('Keep me');
-    const daily = h.note('Daily/2024-02-29.md');
-    expect(h.editorMenu({ file: null }, editor)).toHaveLength(0);
-    expect(h.editorMenu({ file: h.note('Projects/2024-02-29.md') }, editor)).toHaveLength(0);
-    h.plugin.setBulkRunning(true);
-    expect(h.editorMenu({ file: daily }, editor)).toHaveLength(0);
-    h.plugin.setBulkRunning(false); h.plugin.onunload();
-    expect(h.editorMenu({ file: daily }, editor)).toHaveLength(0);
+  test('does not reinsert into an existing note after cleanup or restarting', async () => {
+    const h = harness(); await h.plugin.onload(); h.ready();
+    const file = h.note('Daily/2026-09-24.md', 'Keep me'); h.create(file);
+    await vi.advanceTimersByTimeAsync(600);
+    h.plugin.setBulkRunning(true); h.disk.set(file.path, 'Keep me'); h.plugin.setBulkRunning(false);
+    h.open(file); h.modify(file);
+    h.plugin.onunload(); await h.plugin.onload(); h.ready(); h.open(file);
+    await vi.advanceTimersByTimeAsync(600);
+    expect(h.disk.get(file.path)).toBe('Keep me');
+  });
+  test('registers no single-note insertion command or context menu', async () => {
+    const h = harness(); const commands = vi.spyOn(h.plugin, 'addCommand'); await h.plugin.onload();
+    expect(commands.mock.calls.map(([command]) => command.id)).toEqual(['fill-missing', 'remove-generated']);
+    expect(h.workspaceEvents.has('editor-menu')).toBe(false);
+    expect(h.workspaceEvents.has('file-menu')).toBe(false);
   });
 });

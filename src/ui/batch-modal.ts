@@ -65,7 +65,7 @@ export class BatchModal extends Modal {
     }));
     if (this.kind === 'remove') {
       new Setting(this.contentEl).setName('Also turn off automatic insertion')
-        .setDesc('Otherwise a reflection may return the next time today’s note is opened.').addToggle(toggle =>
+        .setDesc('Stop adding reflections to new daily notes. Existing notes are not automatically refilled.').addToggle(toggle =>
           toggle.setValue(this.disableAutomatic).onChange(value => { this.disableAutomatic = value; }));
     }
     this.message = this.contentEl.createEl('p', { attr: { role: 'status', 'aria-live': 'polite' } });
@@ -104,7 +104,7 @@ export class BatchModal extends Modal {
     this.contentEl.createEl('p', { text: `${notes.length} notes will be updated. ${skipped.length} notes will be kept as they are.` });
     if (this.kind === 'remove') this.contentEl.createEl('p', { text: this.disableAutomatic
       ? 'Automatic insertion will be turned off when you confirm.'
-      : 'Automatic insertion will stay on. Opening today’s note again may add its reflection.' });
+      : 'Automatic insertion will stay on for new daily notes. Existing notes will not be refilled.' });
     if (notes.length) {
       const list = this.contentEl.createEl('ul', { cls: 'everyday-wisdom-file-list' });
       for (const note of notes.slice(0, 20)) list.createEl('li', { text: note.path });
