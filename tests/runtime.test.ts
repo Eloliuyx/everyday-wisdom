@@ -13,11 +13,22 @@ vi.mock('../src/daily-note', () => ({
   dailyConfig: () => ({ folder: 'Daily', format: 'YYYY-MM-DD' }),
 }));
 
+function makeEditor(initial: string) {
+  let value = initial;
+  return {
+    getValue: () => value,
+    offsetToPos: (offset: number) => ({ line: 0, ch: offset }),
+    replaceRange: (text: string, from: { ch: number }, to: { ch: number }) => {
+      value = value.slice(0, from.ch) + text + value.slice(to.ch);
+    },
+  };
+}
+
 function harness() {
   const files = new Map<string, TFile>();
   const disk = new Map<string, string>();
   const vaultEvents = new Map<string, (file: TFile) => void>();
-  let open: (file: TFile) => void = () => {};
+  const workspaceEvents = new Map<string, (...args: unknown[]) => void>();
   let ready: () => void = () => {};
   let active: TFile | null = null;
   let views: MarkdownView[] = [];
@@ -35,7 +46,7 @@ function harness() {
       getActiveFile: () => active,
       getLeavesOfType: () => views.map(view => ({ view })),
       getActiveViewOfType: () => views.find(view => view.file === active) ?? null,
-      on: (event: string, callback: (file: TFile) => void) => { if (event === 'file-open') open = callback; },
+      on: (event: string, callback: (...args: unknown[]) => void) => workspaceEvents.set(event, callback),
       onLayoutReady: (callback: () => void) => { ready = callback; },
     },
   };
@@ -49,16 +60,19 @@ function harness() {
     create: (file: TFile) => vaultEvents.get('create')?.(file),
     modify: (file: TFile) => vaultEvents.get('modify')?.(file),
     ready: () => ready(),
-    open: (file: TFile) => { active = file; open(file); },
-    editor: (file: TFile, initial: string) => {
-      let value = initial;
-      const editor = {
-        getValue: () => value,
-        offsetToPos: (offset: number) => ({ line: 0, ch: offset }),
-        replaceRange: (text: string, from: { ch: number }, to: { ch: number }) => {
-          value = value.slice(0, from.ch) + text + value.slice(to.ch);
-        },
+    open: (file: TFile) => { active = file; workspaceEvents.get('file-open')?.(file); },
+    editorMenu: (info: { file: TFile | null }, editor: ReturnType<typeof makeEditor>) => {
+      const actions: Array<() => Promise<void>> = [];
+      const item = {
+        setTitle: (_text: string) => item,
+        setIcon: (_icon: string) => item,
+        onClick: (callback: () => Promise<void>) => { actions.push(callback); return item; },
       };
+      workspaceEvents.get('editor-menu')?.({ addItem: (callback: (item: unknown) => void) => callback(item) }, editor, info);
+      return actions;
+    },
+    editor: (file: TFile, initial: string) => {
+      const editor = makeEditor(initial);
       const view = Object.assign(new MarkdownView({} as WorkspaceLeaf), { file, editor: editor as unknown as Editor });
       views = [...views, view]; active = file; return editor;
     },
@@ -137,18 +151,44 @@ describe('plugin event and write integration (mock Obsidian APIs)', () => {
     expect(one.getValue()).toBe('First editor'); expect(two.getValue()).toBe('Second editor');
     expect(h.app.vault.process).not.toHaveBeenCalled();
   });
-  test('manual settings action inserts into the open historical note with automatic insertion off', async () => {
+  test('editor menu targets the clicked editor and its unsaved content, not another active note', async () => {
     const h = harness(); await h.plugin.onload(); h.ready(); h.plugin.settings.automatic = false;
-    const file = h.note('Daily/2024-02-29.md', 'History'); h.open(file);
-    await h.plugin.insertActiveNote();
-    expect(h.disk.get(file.path)).toContain(entryForDate('2024-02-29')!.title);
-    expect(h.disk.get(file.path)).toContain('History');
-  });
-  test('manual settings action leaves a non-daily note unchanged', async () => {
-    const h = harness(); await h.plugin.onload(); h.ready();
-    const file = h.note('Projects/2026-09-24.md', 'Project notes'); h.open(file);
-    await h.plugin.insertActiveNote();
-    expect(h.disk.get(file.path)).toBe('Project notes');
+    const target = h.note('Daily/2024-02-29.md', 'Stale disk content');
+    const other = h.note('Daily/2025-03-01.md', 'Other note');
+    const otherEditor = h.editor(other, 'Unsaved other note');
+    const editor = makeEditor('Unsaved target note');
+    const actions = h.editorMenu({ file: target }, editor);
+    expect(actions).toHaveLength(1);
+    expect(editor.getValue()).toBe('Unsaved target note'); // Opening the menu never writes.
+    await actions[0]!();
+    await actions[0]!();
+    expect(editor.getValue()).toContain(entryForDate('2024-02-29')!.title);
+    expect(editor.getValue()).toContain('Unsaved target note');
+    expect(scanBlocks(editor.getValue()).blocks).toHaveLength(1);
+    expect(otherEditor.getValue()).toBe('Unsaved other note');
     expect(h.app.vault.process).not.toHaveBeenCalled();
+  });
+  test('editor-menu action stops if its editor has switched files before the click', async () => {
+    const h = harness(); await h.plugin.onload(); h.plugin.settings.automatic = false;
+    const first = h.note('Daily/2024-02-29.md', 'First');
+    const second = h.note('Daily/2025-03-01.md', 'Second');
+    const info = { file: first };
+    const editor = makeEditor('Current writing');
+    const actions = h.editorMenu(info, editor);
+    info.file = second;
+    await actions[0]!();
+    expect(editor.getValue()).toBe('Current writing');
+    expect(h.app.vault.process).not.toHaveBeenCalled();
+  });
+  test('editor-menu action is omitted for non-daily notes, batches, or an unloaded plugin', async () => {
+    const h = harness(); await h.plugin.onload();
+    const editor = makeEditor('Keep me');
+    const daily = h.note('Daily/2024-02-29.md');
+    expect(h.editorMenu({ file: null }, editor)).toHaveLength(0);
+    expect(h.editorMenu({ file: h.note('Projects/2024-02-29.md') }, editor)).toHaveLength(0);
+    h.plugin.setBulkRunning(true);
+    expect(h.editorMenu({ file: daily }, editor)).toHaveLength(0);
+    h.plugin.setBulkRunning(false); h.plugin.onunload();
+    expect(h.editorMenu({ file: daily }, editor)).toHaveLength(0);
   });
 });

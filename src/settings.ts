@@ -26,13 +26,6 @@ export class WisdomSettingTab extends PluginSettingTab {
   private noteSettings() {
     return [
       {
-        name: 'Insert reflection',
-        desc: 'Add a reflection to the open daily note. Also available in the command palette and the note’s right-click menu.',
-        aliases: ['manual', 'insert', '手动插入'],
-        action: () => { void this.wisdom.insertActiveNote(); },
-        disabled: () => this.wisdom.bulkRunning,
-      },
-      {
         name: 'Automatic insertion',
         desc: 'Add a reflection to new daily notes and when opening today’s note. Historical notes are only filled on request.',
         control: { type: 'toggle', key: 'automatic', defaultValue: true },

@@ -4,11 +4,11 @@ Recorded 2026-09-24 UTC. Version: 1.0.0 development preview; content 0.4.
 
 ## Automated verification
 
-`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **50 tests passed** on 2026-09-24 UTC. Tests exercise pure transforms, plugin event/write integration with mock Obsidian APIs, and marker decorations using real CodeMirror state. They do not test Obsidian's actual editor rendering or settings renderer.
+`npm run package` checks types, official Obsidian ESLint rules, Vitest, all 366 content dates, and the production bundle. **51 tests passed** on 2026-09-24 UTC. Tests exercise pure transforms, plugin event/write integration with mock Obsidian APIs, and marker decorations using real CodeMirror state. They do not test Obsidian's actual editor rendering or settings renderer.
 
 Covered: leap and century years; annual mapping; date folders, custom formats, localized tokens, and invalid/incomplete dates; optional questions; BOM/CRLF/frontmatter; duplicate and edited blocks; code/quoted marker examples; malformed markers; preview/write races; cancellation; individual write failures; concurrent insertion; dirty editors; differing open editors; startup discovery; historical opening; creation for past dates; delayed template writes; disabling/unloading; automatic suspension during batches.
 
-The preview update additionally covers Live Preview / Source mode switching, paired-marker ranges, damaged/code-example markers, edited reflection bodies, position changes after typing, adjacent blocks/BOM, and manual settings insertion with automatic off or a non-daily active file. The support-footer CSS was compared with Everyday Classical Music and matches exactly after renaming its plugin-specific class prefix.
+The preview updates additionally cover Live Preview / Source mode switching, paired-marker ranges, damaged/code-example markers, edited reflection bodies, position changes after typing, adjacent blocks/BOM, and editor-menu insertion. Editor-menu tests verify the clicked editor's unsaved content and date even when another note is active; opening the menu never writes; repeated clicks stay idempotent; switching files, non-daily contexts, batch activity, and unload stop the action. The support-footer CSS was compared with Everyday Classical Music and matches exactly after renaming its plugin-specific class prefix.
 
 Build graph verification: the production bundle imports only host-provided `obsidian`, `@codemirror/state`, and `@codemirror/view`. Bundled third-party code is the tree-shaken daily-notes helper and the adapted music-plugin support footer; notices are included. No `fetch`, XMLHttpRequest, WebSocket, or requestUrl call was found in the production bundle. A real offline-app test remains pending. Ko-fi opens only from an explicit button click.
 
@@ -40,7 +40,8 @@ All rows below are **pending actual-app verification**. Record platform, app ver
 | No-question date | No empty prompt or label. |
 | Switch between Live Preview and Reading mode | Same callout; no visible markers; one title. |
 | Live Preview / Source mode toggle, existing reflections, malformed markers | Intact marker lines hidden only in Live Preview, no stored-text changes; Source mode and malformed markers remain inspectable. |
-| Manual insertion from settings and file context menu | Uses the selected/open daily note's date; works with automatic off; other files untouched. |
+| Manual insertion from the editor context menu | Right-click the daily note's body, choose Insert reflection in the top-level menu; use that editor's date and unsaved text, even if another note is active. No manual entry in plugin settings or file-explorer menus. |
+| Custom shortcut | Assign the Insert reflection command in Hotkeys; it inserts once in the active daily note. No default key conflict introduced. |
 | Donation footer | Standalone centered Feed the Markhor button matches music plugin; no request on settings open/search; click opens the correct Ko-fi URL. |
 | Dark/light themes, narrow viewport, long title | Legible, wrapping content; no horizontal overflow. |
 | All settings and modal actions using keyboard | Focus visible and every action reachable; Escape cancels safely. |

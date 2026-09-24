@@ -17,7 +17,7 @@ Plugin version `1.0.0`; content edition `0.4`; author `the flying markhor` (carr
 - Date-range/all-existing backfill and removal with preview, explicit confirmation, cancellation, and outcome counts.
 - Latest-content writes, serialized per-note updates, editor-aware mutation, and preview-change detection.
 - Local-only runtime, official ESLint rules, automated tests, content QA, build checks, install ZIP, and a dedicated test-vault generator.
-- Live Preview metadata hiding; manual insertion from settings or a daily-note context menu; Backfill/Deletion labels; the same standalone Ko-fi footer as Everyday Classical Music.
+- Live Preview metadata hiding; manual insertion directly from the daily-note editor context menu, with a command for custom hotkeys; Backfill/Deletion labels; the same standalone Ko-fi footer as Everyday Classical Music.
 
 ## Milestone status
 

@@ -28,7 +28,9 @@
 
 ## 手动插入和新的设置名称
 
-先打开目标 Daily Note，按 **⌘P**，搜索 **Everyday Wisdom: Insert reflection**。也可以点设置页的 **Insert reflection**，或在左侧文件列表右键该日记，选择 **Insert reflection**。非日记文件不会被写入。
+先打开目标 Daily Note，在**正文编辑区右键 → Insert reflection**。入口直接在右键菜单第一层，不用展开内置的 Insert 子菜单。文件列表右键菜单和插件设置页不再放置手动插入入口；非日记文件不会被写入。
+
+若想用快捷键，在 **Settings → Hotkeys** 搜索 **Everyday Wisdom: Insert reflection**，再绑定你习惯的按键。这个命令也可通过 **⌘P** 调用；插件不预设组合键。
 
 **Backfill** 用于补齐已有日记中缺少的沉思；**Deletion** 用于删除本插件生成且未被改写的沉思，不删除日记文件。两者都有预览和确认。
 

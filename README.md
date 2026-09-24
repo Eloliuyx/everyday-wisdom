@@ -11,7 +11,7 @@ Everyday Wisdom adds a short English reflection to the top of a daily note, afte
 - Create a daily note: its own date selects the reflection, even for a past or future date.
 - Open today's note: a missing reflection is added automatically.
 - Read an older note: nothing is added just from opening it.
-- Open a daily note, press **Cmd+P** (macOS) or **Ctrl+P** (Windows/Linux), then run **Everyday Wisdom: Insert reflection** to add one manually. You can also use **Insert reflection** in this plugin's settings or right-click the daily note in the file explorer.
+- Right-click inside the text of a daily note and choose **Insert reflection** to add one manually. It appears directly in the editor menu, without opening the built-in Insert submenu. There is no manual-insert entry in the file explorer menu or this plugin's settings.
 - Existing reflections stay as written. Running an insertion again does not duplicate them, including after you edit their visible text.
 
 The date-to-reflection mapping repeats annually. March 1 always selects March 1, regardless of leap years. The 64 entries without questions do not display an empty question label.
@@ -31,6 +31,8 @@ Use a complete calendar date format such as `YYYY-MM-DD`, `D MMMM YYYY`, or `YYY
 If Periodic Notes has daily notes enabled, the daily-notes helper uses its daily settings in preference to the core plugin. This compatibility path is not yet tested in the actual app. Core Daily notes is the support baseline.
 
 ## Settings and batch operations
+
+For a keyboard shortcut, open **Settings → Hotkeys**, search **Everyday Wisdom: Insert reflection**, and assign your preferred keys. The same command is available through **Cmd+P** (macOS) or **Ctrl+P** (Windows/Linux). No shortcut is assigned by default.
 
 **Automatic insertion** can be turned off. **Insert position** can be changed to the end of the note; already inserted reflections are not moved.
 
