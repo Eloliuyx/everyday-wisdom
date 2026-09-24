@@ -31,7 +31,8 @@ export class BatchModal extends Modal {
     this.contentEl.addClass('everyday-wisdom-modal');
     if (this.wisdom.bulkRunning) {
       this.contentEl.createEl('p', { text: 'Another operation is already running. Please wait for it to finish.' });
-      new ButtonComponent(this.contentEl).setButtonText('Close').onClick(() => this.close());
+      const buttons = this.contentEl.createDiv({ cls: 'everyday-wisdom-actions' });
+      new ButtonComponent(buttons).setButtonText('Close').onClick(() => this.close());
       return;
     }
     this.showRange();
@@ -134,7 +135,8 @@ export class BatchModal extends Modal {
     this.wisdom.setBulkRunning(true);
     this.contentEl.empty();
     this.message = this.contentEl.createEl('p', { text: 'Preparing…', attr: { role: 'status', 'aria-live': 'polite' } });
-    new ButtonComponent(this.contentEl).setButtonText('Stop after this note').onClick(() => { this.cancelled = true; });
+    const progressButtons = this.contentEl.createDiv({ cls: 'everyday-wisdom-actions' });
+    new ButtonComponent(progressButtons).setButtonText('Stop after this note').onClick(() => { this.cancelled = true; });
     try {
       if (this.kind === 'remove' && this.disableAutomatic) {
         this.wisdom.settings.automatic = false;
@@ -162,11 +164,13 @@ export class BatchModal extends Modal {
         const list = details.createEl('ul', { cls: 'everyday-wisdom-file-list' });
         for (const row of result.details.slice(0, 100)) list.createEl('li', { text: `${row.path}: ${REASONS[row.reason] ?? row.reason}` });
       }
-      new ButtonComponent(this.contentEl).setButtonText('Done').setCta().onClick(() => this.close());
+      const buttons = this.contentEl.createDiv({ cls: 'everyday-wisdom-actions' });
+      new ButtonComponent(buttons).setButtonText('Done').setCta().onClick(() => this.close());
     } catch {
       if (!this.closed) {
         this.message?.setText('The operation stopped. Completed changes remain; reopen the preview before trying again.');
-        new ButtonComponent(this.contentEl).setButtonText('Close').onClick(() => this.close());
+        progressButtons.empty();
+        new ButtonComponent(progressButtons).setButtonText('Close').onClick(() => this.close());
       }
     } finally {
       this.working = false;

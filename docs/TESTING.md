@@ -27,7 +27,9 @@ For assisted testing, run Obsidian, enable its official command-line interface i
 
 ## Acceptance matrix
 
-All rows below are **pending actual-app verification**. Record platform, app version, date, result, and evidence when executing them.
+On 2026-09-24 UTC, the user reported that the main workflow was working in their test vault. Their macOS Deletion screenshot shows a completed operation with 1 updated, 0 skipped, 0 failed, and 0 not processed. The remaining reported UI issue was the left-aligned Done button; this has been changed to use the same right-aligned action row as the preview. Visual confirmation of that adjustment is pending.
+
+This is a user-reported basic workflow check. The detailed rows below remain **pending individual actual-app verification**. Record platform, app version, date, result, and evidence when executing them.
 
 | Scenario | Expected result |
 | --- | --- |

@@ -2,6 +2,7 @@
 
 ## 1.0.0 — unreleased development preview
 
+- Align batch-dialog buttons to the lower right, including Done after backfill or deletion and Close after an error.
 - Place a brief introduction above the settings list and remove the About this edition row.
 - Hide intact identification-marker lines in Live Preview while keeping the note file unchanged and retaining Source mode access.
 - Use one **Automatic insertion** switch for new daily notes. Remove all individual insertion menus, commands, and shortcuts. Existing notes are filled only through **Backfill**.
