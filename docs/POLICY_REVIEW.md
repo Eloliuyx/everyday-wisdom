@@ -21,6 +21,18 @@ Scope: published tag `1.0.0`, source commit `6548b3ec726b2890432e142fd31427e3f3d
 
 ## Owner commitment at submission
 
-The submission form requires the owner to personally accept the developer policies and commit to ongoing support, or remove/transfer the plugin if continued support is no longer possible. These are future commitments the code review cannot make on the owner's behalf. The prepared form leaves those checkboxes for the owner.
+The submission form requires the owner to personally accept the developer policies and commit to ongoing support, or remove/transfer the plugin if continued support is no longer possible. These are future commitments the code review cannot make on the owner's behalf. The owner completed submission personally.
 
-Actual iOS/Android, minimum-version, offline-app, and detailed compatibility checks remain documented in [TESTING.md](TESTING.md). No official review result or community-directory approval is claimed here.
+## Official automated review
+
+Observed at 04:58 UTC on 2026-09-24: the [management page](https://community.obsidian.md/account/plugins/everyday-wisdom) shows Completed for version 1.0.0, commit `6548b3e`. The [public listing](https://community.obsidian.md/plugins/everyday-wisdom) shows Health Excellent and Review Passed, with Add to Obsidian available. No Errors or Warnings were reported.
+
+Pass results: vault reads through the Obsidian API; no vulnerable dependencies; no obfuscation detected; the release main.js reproduced byte for byte from source.
+
+Three non-blocking Recommendations:
+
+- Missing GitHub artifact attestations for main.js and styles.css. These can be added to a future release workflow as provenance evidence.
+- Extra release files (ZIP, LICENSE, SHA256SUMS.txt, THIRD_PARTY_NOTICES.md) are not downloaded by Obsidian. They intentionally support manual installation and verification; the JavaScript bundle also retains the license notices.
+- Vault enumeration exposes vault file paths to the plugin. This supports finding existing daily notes for Backfill and Deletion. The plugin has no background network requests or telemetry.
+
+These results do not replace actual-app testing. A fresh-vault store installation, iOS/Android, minimum-version, offline-app, and detailed compatibility checks remain documented in [TESTING.md](TESTING.md).

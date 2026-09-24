@@ -29,16 +29,20 @@ iOS、Android、最低版本、跨设备同步和详细大库压力测试尚未�
 
 ## Obsidian Community 提交
 
-当前浏览器中的 Obsidian 账号已登录，并关联 GitHub eloliuyx。新增插件表单的仓库地址已填好，Owner 为 Myself；剩余两项开发者政策与维护承诺需要产品负责人亲自勾选，再点击 Submit。目前没有把填好表单记为已经提交或通过审核。
+产品负责人已亲自完成提交。2026-09-24 04:58 UTC 核对：[管理页面](https://community.obsidian.md/account/plugins/everyday-wisdom)显示版本 `1.0.0`、提交 `6548b3e` 的审核状态为 **Completed**；[公开页面](https://community.obsidian.md/plugins/everyday-wisdom)显示 **Health Excellent / Review Passed**，**Add to Obsidian** 链接已经可用。本次没有额外的 Publish 操作。
+
+没有 Error 或 Warning。三条非阻断建议是补充 GitHub 构建来源证明、提示额外附件不会由 Obsidian 下载，以及提示插件会枚举库内文件路径。具体记录见 [审核记录](POLICY_REVIEW.md)。
+
+以下保留完整流程供后续发布参考；本次已完成第 1–6 步，第 7 步的全新库实际安装验收尚待完成：
 
 1. 打开 [Obsidian Community](https://community.obsidian.md)，登录你的 Obsidian 账号并连接 GitHub。
 2. 在插件页面选择新增插件，仓库填写 `https://github.com/Eloliuyx/everyday-wisdom`。
 3. Owner 选择维护该插件的个人或组织。核对名称、介绍和作者。
 4. 阅读开发者政策，并由你确认持续维护或转交/移除插件的责任，再提交。
 5. 查看自动审核结果；修复 Error，阅读 Warning。需要修改发布内容时增加版本号，并重新发布对应附件。
-6. 审核阻断项解决后完成 Publish，并核对目录中实际可安装状态。
+6. 审核阻断项解决后，完成目录要求的后续发布操作，并核对实际可安装状态。
 7. 最后在全新 vault 中从插件商店搜索、安装、启用，验证新建日记和 Backfill/Deletion。
 
-GitHub Release 发布与 Obsidian 上架是两步。尚未完成官方提交，也不保证审核时间。
+GitHub Release 发布与 Obsidian 上架是两步。本次均已完成，官方自动审核通过；尚待全新库中的实际安装和功能验收。
 
 官方依据：[提交指南](https://docs.obsidian.md/plugins/releasing/submit-plugin)、[开发者政策](https://docs.obsidian.md/community-directory/developer-policies)、[账号与提交表单](https://docs.obsidian.md/community-directory/set-up-and-claim)。于 2026-09-24 UTC 核对。

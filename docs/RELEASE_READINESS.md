@@ -1,6 +1,6 @@
 # Everyday Wisdom — release readiness
 
-Updated 2026-09-24 UTC. **Source is public under MIT. GitHub 1.0.0 is published; community submission and approval are pending.**
+Updated 2026-09-24 UTC. **Source is public under MIT. GitHub 1.0.0 and the community listing are published. Official automated review passed and Add to Obsidian is available; a fresh-vault store installation check remains.**
 
 Repository: https://github.com/Eloliuyx/everyday-wisdom. The owner requested the same public, MIT-licensed approach as Everyday Classical Music, and the repository was made public on 2026-09-24 UTC. [Release 1.0.0](https://github.com/Eloliuyx/everyday-wisdom/releases/tag/1.0.0) was published at 04:46:06 UTC that day, from commit `6548b3ec726b2890432e142fd31427e3f3d1dc26`. See [publishing handoff](PUBLISH.zh-CN.md) and [release notes](releases/1.0.0.md).
 
@@ -23,6 +23,7 @@ Author: **the flying markhor**, consistent with the owner's published Everyday C
 - No exact ID/name collision in the published community registry on 2026-09-24 UTC. This does not reserve the name or cover pending submissions.
 - Seven public release attachments downloaded anonymously and verified against the local package and SHA-256 checksums. The ZIP contains the expected five plugin files; the published tag is synced locally.
 - Published source, bundle, README disclosures, and licensing checked against developer policies; no violation identified. See [POLICY_REVIEW.md](POLICY_REVIEW.md). This is not an official approval.
+- The owner completed community submission. At 04:58 UTC on 2026-09-24, the management page showed Completed for 1.0.0, commit `6548b3e`. The [public listing](https://community.obsidian.md/plugins/everyday-wisdom) showed Health Excellent, Review Passed, and an enabled Add to Obsidian link. There were no Errors or Warnings; three non-blocking Recommendations are recorded in [POLICY_REVIEW.md](POLICY_REVIEW.md).
 
 ## Validation limits
 
@@ -39,13 +40,11 @@ The current environment cannot obtain a new assisted UI session: Computer Use pe
 | M3–M5 Insertion, settings, batch operations | Implemented, automated checks pass, owner reports the main workflow works. Detailed acceptance remains recorded separately. |
 | M6 Platforms | Partial: macOS basic workflow checked by owner; mobile and exact minimum version unverified. |
 | M7 Release preparation | License, content, package, README, and notes complete. GitHub 1.0.0 published and public downloads verified. Full platform acceptance and optional screenshots remain. |
-| M8 Submission/review | Obsidian account is connected to GitHub as eloliuyx. Repository URL filled and Owner set to Myself. Waiting for the owner to personally accept policies/maintenance commitments and submit, then actual review results. |
-| M9 Store installation | Pending a published listing. |
+| M8 Submission/review | Complete. Official automated review passed for 1.0.0 with no Errors or Warnings. |
+| M9 Store installation | Listing is live and Add to Obsidian is available. A fresh-vault installation and workflow check remains unverified. |
 
 ## Publication steps remaining
 
-1. The owner personally accepts the developer policies and maintenance commitments on the prepared Obsidian Community form, then submits it.
-2. Review the actual automated-review result and resolve any blocking errors. Do not infer acceptance from the GitHub release or CI result.
-3. Publish the community entry and verify store installation in a fresh vault.
+1. Use the public Add to Obsidian link and verify installation and core workflows in a fresh vault. No additional Publish action was required in the observed submission flow.
 
 Current official process verified on 2026-09-24 UTC: [submission guide](https://docs.obsidian.md/plugins/releasing/submit-plugin), [plugin requirements](https://docs.obsidian.md/community-directory/submission-requirements-for-plugins), and [developer policies](https://docs.obsidian.md/community-directory/developer-policies).

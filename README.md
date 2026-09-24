@@ -29,7 +29,9 @@ The reflection appears after the note's properties and before the body. You can 
 
 ## Installation
 
-The community-directory listing is not available yet. Until it is approved, install from a published [GitHub release](https://github.com/Eloliuyx/everyday-wisdom/releases).
+Install from the [Obsidian Community listing](https://community.obsidian.md/plugins/everyday-wisdom) using **Add to Obsidian**, then install and enable **Everyday Wisdom** in Obsidian.
+
+For a manual installation, use the published [GitHub release](https://github.com/Eloliuyx/everyday-wisdom/releases):
 
 1. Download `everyday-wisdom-1.0.0.zip` and extract it.
 2. Put the `everyday-wisdom` folder inside `<vault>/.obsidian/plugins/` (or your vault's custom configuration folder).
