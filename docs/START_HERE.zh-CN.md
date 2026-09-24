@@ -1,6 +1,6 @@
 # Everyday Wisdom — 当前版本与试用方法
 
-当前是 **1.0.0 待发布版本**，采用英文内容 v0.4。源码与全部沉思已采用 MIT 公开。用户已反馈 macOS 中主要流程跑通；手机端及最低版本等详细验收仍未完成。安装包版本仍为发布草稿，尚未上架，具体材料见 [发布交接](PUBLISH.zh-CN.md)。
+当前 **1.0.0 已在 GitHub 正式发布**，采用英文内容 v0.4。源码与全部沉思已采用 MIT 公开。用户已反馈 macOS 中主要流程跑通；手机端及最低版本等详细验收仍未完成。Obsidian 社区上架尚未完成，具体材料见 [发布交接](PUBLISH.zh-CN.md)。
 
 ## 现在已经能做什么
 
@@ -51,8 +51,8 @@
 
 1. 完成桌面、最低版本和 iOS/Android 实测，记录结果并取得真实截图。
 2. 已完成 366 条内容的逐条审读。作者沿用 the flying markhor；产品负责人已确认代码和全部文字统一采用 MIT。
-3. GitHub 仓库已公开；下一步发布 `1.0.0` 正式版本及附件。
-4. 在 Obsidian Community 登录、连接 GitHub、提交项目，解决审核结果中的错误。
+3. GitHub 仓库已公开，`1.0.0` 正式版本及附件已发布并验证可下载。
+4. Obsidian Community 已登录、关联 GitHub 并填好表单；由产品负责人亲自确认政策和维护承诺后提交，再处理审核结果。
 5. 在全新库中从社区插件目录安装，完成最终验收。
 
 GitHub 仓库已公开开源：[Eloliuyx/everyday-wisdom](https://github.com/Eloliuyx/everyday-wisdom)。完整开发与上架步骤见 [开发计划](DEVELOPMENT_PLAN.zh-CN.md)，准确阶段状态见 [发布就绪报告](RELEASE_READINESS.md)。

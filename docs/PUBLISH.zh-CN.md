@@ -8,7 +8,7 @@
 - 内容：英文 v0.4，366 条固定日期沉思，302 个可选问题
 - 作者：the flying markhor，与已发布的 Everyday Classical Music 保持一致
 - 仓库：[Eloliuyx/everyday-wisdom](https://github.com/Eloliuyx/everyday-wisdom)
-- 正式默认分支：`main`；发布草稿在仓库的 [Releases 页面](https://github.com/Eloliuyx/everyday-wisdom/releases)
+- 正式默认分支：`main`；[1.0.0 正式版已发布](https://github.com/Eloliuyx/everyday-wisdom/releases/tag/1.0.0)
 - 源码、文档和全部沉思：MIT，产品负责人已确认
 - 最低 Obsidian：1.13.1（所用设置 API 的最低版本；该版本尚未单独实测）
 
@@ -20,14 +20,16 @@
 
 iOS、Android、最低版本、跨设备同步和详细大库压力测试尚未实测。Done 右下角修复已打包，用户还未明确反馈新版视觉验收结果。新的正式产品截图尚未取得。这些限制保留在测试报告中，不写成已通过。
 
-## 从发布草稿到公开版本
+## GitHub 发布已完成
 
-1. 核对本次源码、安装包及上述测试范围，确认是否进入公开发布。
+1. 产品负责人已明确授权正式发布；上述测试范围和限制保留在公开说明中。
 2. 已按产品负责人要求将仓库公开，代码和全部沉思统一采用 MIT，与 Everyday Classical Music 一致。正式默认分支为 `main`，`manifest.json` 版本为 `1.0.0`。
-3. 发布已准备的 GitHub Release 草稿，标签精确为 `1.0.0`。分别保留 `main.js`、`manifest.json`、`styles.css` 三个附件；ZIP 不能代替它们。许可证、第三方声明和校验文件也已准备。
-4. 核对公开仓库及附件可下载，且发布源码与构建包一致。
+3. 已发布 GitHub Release，标签精确为 `1.0.0`。`main.js`、`manifest.json`、`styles.css` 三个独立附件齐全，另有 ZIP、许可证、第三方声明和校验文件。
+4. 七个附件已通过匿名公开下载验证，校验值与本地及 GitHub 独立构建一致。
 
 ## Obsidian Community 提交
+
+当前浏览器中的 Obsidian 账号已登录，并关联 GitHub eloliuyx。新增插件表单的仓库地址已填好，Owner 为 Myself；剩余两项开发者政策与维护承诺需要产品负责人亲自勾选，再点击 Submit。目前没有把填好表单记为已经提交或通过审核。
 
 1. 打开 [Obsidian Community](https://community.obsidian.md)，登录你的 Obsidian 账号并连接 GitHub。
 2. 在插件页面选择新增插件，仓库填写 `https://github.com/Eloliuyx/everyday-wisdom`。

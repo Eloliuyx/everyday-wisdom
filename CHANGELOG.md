@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 — prepared for initial release
+## 1.0.0 — 2026-09-24
 
 - License the code, documentation, and all 366 reflections under MIT, with the license embedded in the distributable bundle.
 - Complete the collection's final editorial read-through and correct three small wording issues; preserve existing notes and all calendar assignments.
@@ -17,4 +17,4 @@
 - Add date-range previews, cancellable backfill and removal, and an option to disable automatic insertion during cleanup.
 - Add offline operation, minimal settings, content validation, automated tests, and reproducible installation packaging.
 
-This version has not been published to Obsidian Community plugins. The owner reports that the main macOS workflow works. Actual mobile, exact minimum-version, and detailed platform verification remain pending; see `docs/TESTING.md`.
+Published on [GitHub](https://github.com/Eloliuyx/everyday-wisdom/releases/tag/1.0.0). Obsidian Community submission and approval are separate steps. The owner reports that the main macOS workflow works. Actual mobile, exact minimum-version, and detailed platform verification remain pending; see `docs/TESTING.md`.

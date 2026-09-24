@@ -21,6 +21,8 @@ Build graph verification: the production bundle imports only host-provided `obsi
 
 ## Isolated test vault
 
+GitHub release `1.0.0` was published on 2026-09-24 UTC. All seven attachments were downloaded without credentials from the public release URLs. Each downloaded file matched the prepared distribution, the SHA-256 list checked out, and the ZIP contained the expected plugin folder and five files. This verifies distribution, not an actual Obsidian installation or a community-directory approval.
+
 Production dependencies were checked with `npm audit --omit=dev` on 2026-09-24 UTC: zero known vulnerabilities. The release build embeds the project's MIT license as well as third-party notices. Content QA verifies that all 366 documented entries match the bundled content after the final editorial corrections.
 
 Run `npm run package`, then `npm run test:vault`. The second command creates `test-vault/` and refuses to overwrite it. Open this folder using Obsidian's **Open folder as vault**. Enable the locally bundled plugin if prompted. No personal vault is modified or registered by the script.
