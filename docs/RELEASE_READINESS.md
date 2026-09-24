@@ -1,8 +1,8 @@
 # Everyday Wisdom — release readiness
 
-Updated 2026-09-24 UTC. **1.0.0 release preparation; not yet publicly released, submitted, or approved.**
+Updated 2026-09-24 UTC. **Source is public under MIT. The 1.0.0 release is still a draft; community submission and approval are pending.**
 
-Repository: https://github.com/Eloliuyx/everyday-wisdom. It remains private until public release is authorized. The prepared release is a draft; see [publishing handoff](PUBLISH.zh-CN.md) and [release notes](releases/1.0.0.md).
+Repository: https://github.com/Eloliuyx/everyday-wisdom. The owner requested the same public, MIT-licensed approach as Everyday Classical Music, and the repository was made public on 2026-09-24 UTC. The prepared release remains a draft; see [publishing handoff](PUBLISH.zh-CN.md) and [release notes](releases/1.0.0.md).
 
 The release default branch is `main`; the earlier `feat/initial-plugin` branch is retained as development history.
 
@@ -43,7 +43,7 @@ The current environment cannot obtain a new assisted UI session: Computer Use pe
 ## Publication steps remaining
 
 1. Review the concrete 1.0.0 materials and outstanding platform coverage. Confirm the intended release scope before publishing.
-2. Make the GitHub repository public and publish the exact `1.0.0` release, with `main.js`, `manifest.json`, and `styles.css` as separate attachments. CI does not publish automatically.
+2. Publish the exact `1.0.0` release in the already-public repository, with `main.js`, `manifest.json`, and `styles.css` as separate attachments. CI does not publish automatically.
 3. Sign in to Obsidian Community, link GitHub, submit under the correct owner, and resolve automated-review errors. The owner must accept the developer and maintenance policies.
 4. Publish the community entry and verify store installation in a fresh vault.
 
