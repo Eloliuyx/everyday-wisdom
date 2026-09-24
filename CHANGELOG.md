@@ -2,6 +2,7 @@
 
 ## 1.0.0 — unreleased development preview
 
+- Place a brief introduction above the settings list and remove the About this edition row.
 - Hide intact identification-marker lines in Live Preview while keeping the note file unchanged and retaining Source mode access.
 - Use one **Automatic insertion** switch for new daily notes. Remove all individual insertion menus, commands, and shortcuts. Existing notes are filled only through **Backfill**.
 - Match the Everyday Classical Music settings footer with a centered **Feed the Markhor 🦌🪽** button linking to the author's Ko-fi page.

@@ -2,6 +2,8 @@ import { PluginSettingTab, type Setting, type SettingDefinitionItem } from 'obsi
 import type EverydayWisdom from './main';
 import { BatchModal } from './ui/batch-modal';
 
+const INTRODUCTION = 'Everyday Wisdom adds a short daily reflection to your Daily Notes. Each of its 366 reflections is assigned to a fixed calendar date. Everything works offline, with no account required.';
+
 export class WisdomSettingTab extends PluginSettingTab {
   constructor(private readonly wisdom: EverydayWisdom) {
     super(wisdom.app, wisdom);
@@ -10,6 +12,18 @@ export class WisdomSettingTab extends PluginSettingTab {
 
   getSettingDefinitions(): SettingDefinitionItem[] {
     return [
+      {
+        type: 'group', cls: 'everyday-wisdom-intro-group',
+        items: [{
+          name: '',
+          searchable: false,
+          render: (setting: Setting): void => {
+            setting.setClass('everyday-wisdom-intro');
+            setting.settingEl.empty();
+            setting.settingEl.createEl('p', { text: INTRODUCTION });
+          },
+        }],
+      },
       { type: 'group', items: this.noteSettings() },
       {
         type: 'group', cls: 'everyday-wisdom-support-group',
@@ -49,10 +63,6 @@ export class WisdomSettingTab extends PluginSettingTab {
         aliases: ['Remove generated reflections', 'delete', '删除', '清理'],
         action: () => new BatchModal(this.wisdom, 'remove').open(),
         disabled: () => this.wisdom.bulkRunning,
-      },
-      {
-        name: 'About this edition',
-        desc: '366 original reflections. English edition 0.4. Everything works offline; no account or tracking.',
       },
       {
         name: 'Help and feedback', desc: 'Open the project on GitHub. No note content is sent.',
